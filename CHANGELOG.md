@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.4] - 2026-11-05
+- 链式符号类型纪律：stats 返回值统一 wrap，内核接受裸 SymPy（B12/C4/G1/G2）
+- `max_drawdown` 严格正价格：全零/0 起步/负价格明确报错
+- 文档声明 ddof：sharpe/zscore/cov 使用样本口径（ddof=1）
+- 能力包测试 124 → 135 项
+
 ## [0.3.3] - 2026-11-05
 - 修复静默失败：整数截断、零方差、多重 IRR、深度虚值期权下溢
 - 新增严格整数校验（bond/date/discount/annuity/factorial/binomial/unit_pow/diff/templates）

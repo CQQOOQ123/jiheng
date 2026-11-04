@@ -349,7 +349,8 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 ## 常见问题
 
 **Q：`std` 是样本还是总体？**
-A：`std`/`std_pop` 是总体，`std_sample` 是样本。
+A：`std`/`std_pop`/`var`/`var_pop` 是总体；`std_sample`/`var_sample` 是样本。
+`sharpe`、`zscore`、`cov` 内部使用样本口径（ddof=1）。
 
 **Q：为什么 `N(...)` 不等于正态 CDF？**
 A：`N(expr, digits)` 是数值求值；正态 CDF 用 `norm_cdf(x)`。
@@ -422,7 +423,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.3`。
+当前 `0.3.4`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng

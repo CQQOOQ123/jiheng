@@ -368,7 +368,8 @@ Benchmark (1000 mixed tasks, deepseek-v4-flash, natural usage): **97.6%** (976/1
 ## FAQ
 
 **Q: Is `std` sample or population?**
-A: `std`/`std_pop` are population; `std_sample` is sample.
+A: `std`/`std_pop`/`var`/`var_pop` are population; `std_sample`/`var_sample` are sample.
+`sharpe`, `zscore` and `cov` use the sample convention internally (ddof=1).
 
 **Q: Why is `N(...)` not the normal CDF?**
 A: `N(expr, digits)` is numeric evaluation; use `norm_cdf(x)`.
@@ -396,8 +397,8 @@ Quality audit: [`QUALITY.md`](https://github.com/CQQOOQ123/jiheng/blob/main/QUAL
 
 ```bash
 uv build --directory dsh-calc
-# dist/jiheng_mcp-0.3.3-py3-none-any.whl
-# dist/jiheng_mcp-0.3.3.tar.gz
+# dist/jiheng_mcp-0.3.4-py3-none-any.whl
+# dist/jiheng_mcp-0.3.4.tar.gz
 ```
 
 Docker:
@@ -409,7 +410,7 @@ docker run -i --rm jiheng-mcp
 
 ## Version & license
 
-- Version: `0.3.3`
+- Version: `0.3.4`
 - MCP package: `jiheng-mcp` on PyPI
 - DSH plugin id: `@local/jiheng`
 - License: **MIT** (see [LICENSE](https://github.com/CQQOOQ123/jiheng/blob/main/LICENSE))

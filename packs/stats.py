@@ -167,12 +167,12 @@ def max_drawdown(prices):
 
 def register(reg):
     reg.func("dot", ["x", "y"], dot, doc="点积/内积")
-    reg.func("cov", ["x", "y"], cov, doc="样本协方差")
+    reg.func("cov", ["x", "y"], cov, doc="样本协方差（ddof=1）")
     reg.func("corr", ["x", "y"], corr, doc="Pearson 相关系数")
     reg.func("regression", ["x", "y"], regression, doc="一元线性回归 [slope, intercept, r2]")
     reg.func("pct_change", ["xs"], pct_change, doc="逐期百分比变化")
     reg.func("log_returns", ["xs"], log_returns, doc="逐期对数收益率")
     reg.func("cumsum", ["xs"], cumsum, doc="累计和")
-    reg.func("zscore", ["xs"], zscore, doc="标准化")
-    reg.func("sharpe", ["returns", "rf"], sharpe, doc="夏普比率（未年化）")
+    reg.func("zscore", ["xs"], zscore, doc="标准化（样本 std，ddof=1）")
+    reg.func("sharpe", ["returns", "rf"], sharpe, doc="夏普比率（未年化，样本 std，ddof=1）")
     reg.func("max_drawdown", ["prices"], max_drawdown, doc="最大回撤")
