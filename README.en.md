@@ -22,6 +22,41 @@ It ships as both an **MCP server** (`jiheng-mcp`) and a **DSH plugin**.
 | Discoverable | `functions()` lists every name; `help("name")` shows a signature |
 | Extensible | hot-reloadable `.calc/plugins/*.py` packs |
 
+## Why Jiheng?
+
+Different tools optimize for different jobs. Jiheng is built for one specific use case:
+**an AI agent that needs a fast, exact, local calculator with a clean tool interface.**
+
+| | Jiheng | Wolfram (Alpha / Cloud) | SymPy MCP | Code Interpreter |
+|---|---|---|---|---|
+| **Exact fractions / radicals** | ✅ always (`1/3`, `sqrt(2)`) | ✅ | ✅ but a low-level API | ⚠️ float unless you write code |
+| **AI-first tool surface** | ✅ `steps`, `functions()`, `help()`, teaching-style errors | ⚠️ docs-oriented | ❌ raw API | ✅ general-purpose |
+| **Local, no API key** | ✅ `uvx jiheng-mcp` | ❌ cloud / paid | ✅ local | ❌ hosted |
+| **Warm latency** | ~3 ms / call | network round-trip | Python startup per call | seconds |
+| **Domain coverage** | 19 packs: stats, finance, engineering, units, dates, distributions, ODE, linalg… | ✅ very broad | base math only | ⚠️ via libraries |
+| **Multi-step in one call** | ✅ named `steps` | ⚠️ | ❌ | ✅ code |
+| **Parallel shards** | ✅ `calc_shard` + worker pool | ❌ | ❌ | ⚠️ manual |
+| **Symbolic depth** | ⚠️ good, not Wolfram-level | ✅ best-in-class | ✅ strong | ⚠️ via SymPy |
+| **Hard numerical integration** | ⚠️ improved, not Wolfram-level | ✅ | ⚠️ | ✅ SciPy |
+| **Chinese domain conventions** | ✅ discount/tax/date/unit templates | ⚠️ | ❌ | ⚠️ |
+| **License / cost** | MIT, free | paid / cloud | BSD, free | free but hosted |
+| **Measured benchmark** | ✅ 97.6% on 1,000 mixed tasks | — | — | — |
+
+**Use Jiheng when:**
+
+- You are building an AI agent / MCP client and want a dependable calculator tool
+- You need exact values (money, fractions, roots) with no silent rounding
+- You want one command, local, no API key, with millisecond latency
+- You need domain functions (finance, units, dates, engineering) without writing Python
+- You want stable, parseable output and errors the model can self-correct
+
+**Do not use Jiheng for:**
+
+- Risch-level symbolic integration, Meijer-G, PDEs → use Wolfram / Mathematica
+- Large CSV/dataframe workflows → use code execution / DuckDB
+- Live market data, news, web lookups → fetch data separately, then pass it to Jiheng
+- Arbitrary programming → use a code interpreter
+
 ## Quick start
 
 ### MCP server (recommended)
