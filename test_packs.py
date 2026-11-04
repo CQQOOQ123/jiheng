@@ -4,8 +4,9 @@ import sys
 from fractions import Fraction
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+sys.path.insert(0, str(HERE))
 import calc_core as cp  # noqa: E402
 
 PASS, FAIL = 0, 0
@@ -26,7 +27,12 @@ def check(expr, expected):
         print("FAIL %-46s => %r (want %r)" % (expr, got, expected))
 
 
-loaded = cp.load_packs(ROOT / ".calc" / "plugins")
+PACKS_DIR = next(
+    (path for path in (HERE / "packs", ROOT / ".calc" / "plugins") if path.is_dir()),
+    None,
+)
+assert PACKS_DIR is not None, "能力包目录不存在"
+loaded = cp.load_packs(PACKS_DIR)
 print("packs:", loaded)
 assert "stats.py" in loaded and "finance.py" in loaded, "示例能力包未加载"
 
