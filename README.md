@@ -330,7 +330,7 @@ A：模型 API 连续重试 6 次仍失败（限流/网络），不是计算器�
 
 ```bash
 # 1. 改版本号（同步 package.json / pyproject / mcp_server）
-python scripts/bump_version.py 0.3.1
+python scripts/bump_version.py 0.3.2
 
 # 2. 更新 CHANGELOG.md
 # 3. 提交并创建 GitHub Release（建议先 Draft，确认后再 Publish）
@@ -366,8 +366,8 @@ uv publish dsh-calc/dist/*
 
 ```bash
 uv build --directory dsh-calc
-# dist/jiheng_mcp-0.3.0-py3-none-any.whl
-# dist/jiheng_mcp-0.3.0.tar.gz
+# dist/jiheng_mcp-0.3.2-py3-none-any.whl
+# dist/jiheng_mcp-0.3.2.tar.gz
 ```
 
 Docker：
@@ -379,7 +379,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.0`。
+当前 `0.3.2`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng
