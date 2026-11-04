@@ -39,4 +39,5 @@ include = [
   "README.en.md",
   "AI-USAGE.md",
   "PACKS.md",
+  "QUALITY.md",
 ]

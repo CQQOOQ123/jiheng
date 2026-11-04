@@ -52,6 +52,8 @@ def corr(x, y):
 
 def _std_sample(xs):
     n = len(xs)
+    if n < 2:
+        raise ValueError("sample standard deviation needs at least 2 values")
     m = _mean(xs)
     var = sum(((_f(v) - m) ** 2 for v in xs), Fraction(0)) / (n - 1)
     rn = sp.Integer(var.numerator)
@@ -113,6 +115,8 @@ def zscore(xs):
         raise ValueError("zscore: need at least 2 values")
     m = _mean(xs)
     s = _std_sample(xs)
+    if s == 0:
+        raise ValueError("zscore: series has zero variance")
     return [(_f(value) - m) / s for value in xs]
 
 
@@ -121,7 +125,10 @@ def sharpe(returns, rf=0):
     if len(returns) < 2:
         raise ValueError("sharpe: need at least 2 values")
     m = _mean(returns)
-    return (m - _f(rf)) / _std_sample(returns)
+    s = _std_sample(returns)
+    if s == 0:
+        raise ValueError("sharpe: returns have zero variance; ratio is undefined")
+    return (m - _f(rf)) / s
 
 
 def max_drawdown(prices):

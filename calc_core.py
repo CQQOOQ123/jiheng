@@ -289,7 +289,8 @@ def _variance(a, ddof=0):
     n = len(a)
     denom = n - ddof
     if denom <= 0:
-        raise ValueError("need more values for this variance")
+        need = ddof + 1
+        raise ValueError("variance: need at least %d values (got %d)" % (need, n))
     m = _mean(a)
     if isinstance(m, Sym):
         ss = sum(((_sym(x) - m.e) ** 2 for x in a), sp.Integer(0))
@@ -610,6 +611,7 @@ FUNCS = {
     "max": lambda a: max((_num(x) for x in a), key=_sort_key),
     "mean": _mean,
     "std": lambda a: _std(a, 0),
+    "var": lambda a: _variance(a, 0),
     "std_pop": lambda a: _std(a, 0),
     "std_sample": lambda a: _std(a, 1),
     "var_pop": lambda a: _variance(a, 0),
