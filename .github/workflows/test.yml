@@ -1,0 +1,39 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project
+        run: uv sync
+
+      - name: Core tests
+        run: uv run python test_cases.py
+
+      - name: Pack tests
+        run: uv run python test_packs.py
+
+      - name: Docs and version
+        run: |
+          uv run python test_docs.py
+          uv run python test_version.py
+
+      - name: Client contract
+        run: node test_client_contract.mjs
+
+      - name: MCP smoke
+        run: uv run python test_mcp.py
+
+      - name: Build wheel
+        run: uv build
