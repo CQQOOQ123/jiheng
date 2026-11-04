@@ -1,5 +1,7 @@
 # 玑衡 Jiheng — 给 AI 的精确计算层
 
+[![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **玑衡（Jiheng）**：以古代测天仪器“璇玑玉衡”为名，做 AI 的精确计算层。
 精确有理数 + 符号计算 + 统计/金融/单位/日期能力包，既可作为 **DSH 插件**，也可作为
 **独立 MCP 服务器** 接入任意 MCP 客户端。
@@ -280,6 +282,40 @@ A：明确报错（如 `2026-02-30`），不会顺延到 3 月 2 日。
 
 **Q：`api retries exhausted` 是什么？**
 A：模型 API 连续重试 6 次仍失败（限流/网络），不是计算器错误；用 `--resume` 补跑。
+
+## 开发与发布
+
+- CI：`.github/workflows/test.yml` 在 push / PR 时跑核心、能力包、文档、客户端、MCP 冒烟测试
+- 发布：`.github/workflows/publish.yml` 在 GitHub Release 发布时自动构建并上传 PyPI
+  （Trusted Publishing：GitHub OIDC，无需长期 token）
+
+发布流程：
+
+```bash
+# 1. 改版本号（同步 package.json / pyproject / mcp_server）
+python scripts/bump_version.py 0.3.1
+
+# 2. 更新 CHANGELOG.md
+# 3. 提交并创建 GitHub Release（建议先 Draft，确认后再 Publish）
+# 4. Release 触发 publish.yml → 自动发布到 PyPI
+```
+
+PyPI 项目需在 **Publishing** 里配置 GitHub publisher：
+
+```text
+Owner:        CQQOOQ123
+Repository:   jiheng
+Workflow:     publish.yml
+Environment:  （留空）
+```
+
+手动发布（备用）：
+
+```bash
+$env:UV_PUBLISH_TOKEN = "pypi-..."
+uv build --directory dsh-calc
+uv publish dsh-calc/dist/*
+```
 
 ## 已知限制
 
