@@ -57,17 +57,57 @@ Different tools optimize for different jobs. Jiheng is built for one specific us
 - Live market data, news, web lookups → fetch data separately, then pass it to Jiheng
 - Arbitrary programming → use a code interpreter
 
-## Quick start
+## Interoperability
 
-### MCP server (recommended)
+Jiheng is a **computation layer**, not a data layer. It does not open database
+connections, fetch web pages, or read files. It computes on numbers you already have.
+Data access belongs to dedicated MCP tools; compose them:
 
-```bash
-uvx jiheng-mcp
-# or
-pip install jiheng-mcp
+| Need | Use |
+|---|---|
+| Fetch rows from a database / CSV | database MCP, filesystem MCP, code interpreter |
+| Statistics, finance, units, dates | **Jiheng** |
+| Large joins / ETL | DuckDB / code execution |
+| Charts | chart MCP |
+
+Typical flow:
+
+```text
+DB MCP: SELECT month, revenue FROM finance
+        ↓
+[120000, 135000, 149000, 162000]
+        ↓
+Jiheng: cagr(162000, 120000, 3)   → 0.105...
+        Jiheng: mean([...])        → 141500
+        Jiheng: npv(0.08, [...], 1) → discounted value
 ```
 
-MCP client config:
+Why Jiheng does not embed a database client:
+
+- no database credentials
+- no SQL execution surface
+- no network requests
+- small, auditable, offline-friendly calculator
+
+If you need read-only SQLite / DuckDB / CSV access, use a dedicated data tool or MCP
+server, then pass the numbers to Jiheng.
+
+## Quick start
+
+### 30-second setup (MCP)
+
+**1. Install uv** (skip if already installed)
+
+```bash
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows PowerShell
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+**2. Let your client launch Jiheng**
+
+Add this to your MCP client config (Claude Desktop, Cursor, Codex, ...):
 
 ```json
 {
@@ -80,7 +120,40 @@ MCP client config:
 }
 ```
 
-The server exposes one tool, `calc`:
+`uvx` downloads `jiheng-mcp` on first launch, then uses the local cache.
+
+**3. Restart the client and ask**
+
+```text
+Use calc to compute 1/3 + 1/6
+Use calc to compute mean([12,15,9,22])
+Use calc to compute npv(0.08, [623,644,431,286], 1)
+Use calc to compute sqrt(2)*sqrt(2)
+```
+
+### Other install options
+
+| Method | Command |
+|---|---|
+| PyPI (pip) | `pip install jiheng-mcp` |
+| Local checkout | `uvx --from ./dsh-calc jiheng-mcp` |
+| From git | `uvx --from git+https://github.com/CQQOOQ123/jiheng jiheng-mcp` |
+
+### DSH plugin
+
+```powershell
+plugin_manager install_bundle target="D:\path\to\dsh-calc"
+plugin_manager set_bundle target="@local/jiheng" enabled=true
+```
+
+### Run the MCP server directly (debugging)
+
+```bash
+cd dsh-calc
+python -u mcp_server.py    # JSON-RPC over stdio
+```
+
+### Tool arguments
 
 ```json
 {
@@ -90,19 +163,8 @@ The server exposes one tool, `calc`:
 }
 ```
 
-### DSH plugin
-
-```powershell
-plugin_manager install_bundle target="D:\path\to\dsh-calc"
-plugin_manager set_bundle target="@local/jiheng" enabled=true
-```
-
-### Run directly
-
-```bash
-cd dsh-calc
-python -u mcp_server.py    # JSON-RPC over stdio
-```
+Returns `content[0].text` (decimal-first, with exact form). On errors, `isError: true`
+with a correctable hint.
 
 ## Usage examples
 

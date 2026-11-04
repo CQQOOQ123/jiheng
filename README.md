@@ -55,24 +55,56 @@
 - 实时行情、新闻、网页查询 → 先取数据，再交给 Jiheng
 - 任意编程任务 → 用代码解释器
 
-## 快速开始
+## 互操作（Interoperability）
 
-### 方式 A：MCP 服务器（推荐给非 DSH 客户端）
+Jiheng 是**计算层**，不是数据层。它不连接数据库、不抓网页、不读文件，
+只负责把“已经拿到的数字”算准。数据获取交给专门的 MCP 工具，两者组合使用：
 
-```bash
-# 从 PyPI 安装（推荐）
-uvx jiheng-mcp
-# 或
-pip install jiheng-mcp
+| 需要做什么 | 用什么 |
+|---|---|
+| 从数据库/CSV 取数 | 数据库 MCP、文件 MCP、代码解释器 |
+| 统计、金融、单位、日期计算 | **Jiheng** |
+| 大表 join / ETL | DuckDB / 代码执行 |
+| 画图 | 图表 MCP |
 
-# 开发时从本地目录
-uvx --from ./dsh-calc jiheng-mcp
+典型链路：
 
-# 或直接从 git 仓库
-uvx --from git+https://github.com/CQQOOQ123/jiheng jiheng-mcp
+```text
+数据库 MCP：SELECT month, revenue FROM finance
+        ↓
+[120000, 135000, 149000, 162000]
+        ↓
+Jiheng：cagr(162000, 120000, 3)   → 0.105...
+        Jiheng：mean([...])        → 141500
+        Jiheng：npv(0.08, [...], 1) → 折现值
 ```
 
-MCP 客户端配置（PyPI）：
+为什么不在 calc 里内置数据库连接：
+
+- 不保存数据库凭据
+- 不暴露 SQL 执行面
+- 不发起网络请求
+- 计算器保持小、可审计、可离线
+
+如果你需要“只读 SQLite / DuckDB / CSV”，建议用独立的数据工具或 MCP，
+把结果数字交给 Jiheng 计算。
+
+## 快速开始
+
+### 30 秒上手（MCP）
+
+**1. 安装 uv**（已装可跳过）
+
+```bash
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Windows PowerShell
+irm https://astral.sh/uv/install.ps1 | iex
+```
+
+**2. 让客户端启动 Jiheng**
+
+在 Claude Desktop、Cursor、Codex 等 MCP 客户端配置里加入：
 
 ```json
 {
@@ -85,20 +117,42 @@ MCP 客户端配置（PyPI）：
 }
 ```
 
-从 git 安装的配置：
+第一次启动时 `uvx` 会自动下载 `jiheng-mcp`，之后走本地缓存。
 
-```json
-{
-  "mcpServers": {
-    "jiheng": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/CQQOOQ123/jiheng", "jiheng-mcp"]
-    }
-  }
-}
+**3. 重启客户端，直接提问**
+
+```text
+用 calc 算 1/3 + 1/6
+用 calc 算 mean([12,15,9,22])
+用 calc 算 npv(0.08, [623,644,431,286], 1)
+用 calc 算 sqrt(2)*sqrt(2)
 ```
 
-提供一个工具 `calc`，参数：
+### 其他安装方式
+
+| 方式 | 命令 |
+|---|---|
+| PyPI（pip） | `pip install jiheng-mcp` |
+| 本地目录开发 | `uvx --from ./dsh-calc jiheng-mcp` |
+| 直接从 git | `uvx --from git+https://github.com/CQQOOQ123/jiheng jiheng-mcp` |
+
+### DSH 插件
+
+```powershell
+plugin_manager install_bundle target="D:\AI\DeepSeek-workplace\创造模式\dsh-calc"
+plugin_manager set_bundle target="@local/jiheng" enabled=true
+```
+
+装载后工具表出现 `calc`；设置 → 计算器 出现配置页。
+
+### 直接跑 MCP server（调试用）
+
+```bash
+cd dsh-calc
+python -u mcp_server.py    # 读取 stdin 的 JSON-RPC
+```
+
+### 工具参数
 
 ```json
 {
@@ -108,23 +162,8 @@ MCP 客户端配置（PyPI）：
 }
 ```
 
-返回：`content[0].text` 为十进制优先的结果（附精确形式）；错误时 `isError: true`，文本中包含可修正的提示。
-
-### 方式 B：DSH 插件
-
-```powershell
-plugin_manager install_bundle target="D:\AI\DeepSeek-workplace\创造模式\dsh-calc"
-plugin_manager set_bundle target="@local/jiheng" enabled=true
-```
-
-装载后工具表出现 `calc`；设置 → 计算器 出现配置页。
-
-### 方式 C：直接跑 Python
-
-```bash
-cd dsh-calc
-python -u mcp_server.py    # 读取 stdin 的 JSON-RPC
-```
+返回：`content[0].text` 为十进制优先的结果（附精确形式）；错误时 `isError: true`，
+文本中包含可修正的提示。
 
 ## 工具用法示例
 
