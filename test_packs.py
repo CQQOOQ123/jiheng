@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 """能力包测试：加载 .calc/plugins 下的包并验证函数结果。"""
+import os
 import sys
+import tempfile
 from fractions import Fraction
 from pathlib import Path
+
+os.environ["CALC_HOME"] = tempfile.mkdtemp(prefix="jiheng-test-home-")  # currency 汇率不随环境漂移
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -108,6 +112,18 @@ def check_decimal(expr, prefix):
     else:
         FAIL += 1
         print("FAIL %-46s => decimal %r (want prefix %r)" % (expr, d, prefix))
+
+
+def check_list_decimal(expr, index, prefix):
+    global PASS, FAIL
+    decimals = res(expr).get("d") or []
+    value = decimals[index] if index < len(decimals) else ""
+    if value.startswith(prefix):
+        PASS += 1
+        print("ok   %-46s => decimal[%d] %s" % (expr[:46], index, value[:24]))
+    else:
+        FAIL += 1
+        print("FAIL %-46s => decimal[%d] %r (want prefix %r)" % (expr, index, value, prefix))
 
 
 def check_prefix(expr, prefix):
@@ -247,6 +263,23 @@ check("折上折(1000, 0.1, 0.2)", "720")
 check("返点(100000, 0.03)", "3000")
 check("客单价(100000, 200)", "500")
 check("售罄率(80, 100)", "0.8")
+
+# 批次1 镜像：L1 手推 + 退化 fail-loud + IRR 符号翻转不变性
+check("days_between('2024-02-28', '2024-03-01')", "2")
+check("days_between('2025-02-28', '2025-03-01')", "1")
+check("date_add('2024-02-28', 2)", "2024-03-01")
+check("currency_convert(100, 'USD', 'CNY')", "720")
+check("currency_convert(currency_convert(100, 'USD', 'CNY'), 'CNY', 'USD')", "100")
+raises("currency_rate('XXX')", "unknown currency")
+raises("yoy(110, 0)", "previous must not be zero")
+raises("pct_part(1, 0)", "whole must not be zero")
+raises("stress(1000, 0)", "area must not be zero")
+raises("heat_flux(1, 1, 0)", "thickness must not be zero")
+raises("date_add('2026-01-01', 1.5)", "days must be an integer")
+raises("weekday('2026-02-30')", "invalid date")
+check_list_decimal("irr_all([100, -30, -30, -30])", 0, "-0.0508854413")
+check_list_decimal("irr_all([-100, 30, 30, 30])", 0, "-0.0508854413")
+check_list_decimal("irr_all([-100, 40, 40, 40])", 0, "0.0970102574")
 
 print("\n%d passed, %d failed" % (PASS, FAIL))
 sys.exit(1 if FAIL else 0)
