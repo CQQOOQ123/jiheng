@@ -67,7 +67,7 @@ max_drawdown(prices[, allow_leading_zeros])
 | 基础 | `sqrt abs round floor ceil exp ln log(b?) N(expr, digits)` |
 | 三角 | `sin cos tan atan` |
 | 统计 | `sum mean std std_sample std_pop var var_pop var_sample median quantile min max count first last` |
-| 金融 | `loan_pmt(P,年利率,年数) cagr(末,初,年) fv(P,r,n) discount(价,百分比) markup pct_of` |
+| 金融 | `loan_pmt(P,年利率,年数) cagr(末,初,年) fv(P,r,n) discount(价,百分比) markup pct_of`、`npv irr irr_all` |
 | 单位 | `convert(值,"from","to")`（速度/长度/质量/数据） |
 | 符号 | `solve solve_real diff simplify expand factor subs`、`integrate(式,x) limit(式,x,点) taylor(式,x,点,阶)` |
 | 区间/假设 | `interval(式, 位数)` 返回可证明的上下界；`assume(x, "positive")` / `forget(x)` 给符号加/清假设（**只在同一次调用内生效**，每个请求开始时自动清空，避免跨会话泄漏） |

@@ -78,8 +78,8 @@ def irr(cashflows):
     changes = sum(1 for a, b in zip(signs, signs[1:]) if a != b)
     if changes > 1:
         raise ValueError(
-            "irr: cashflows change sign %d times; multiple IRRs may exist and are not "
-            "supported. Scan npv(rate, cashflows) over rates instead." % changes
+            "irr: cashflows change sign %d times; multiple IRRs may exist. "
+            "Use irr_all(cashflows) to get every real root." % changes
         )
 
     def npv_at(rate):
@@ -120,6 +120,39 @@ def _bond_periods(years, freq):
     if periods <= 0:
         raise ValueError("years * freq must be positive")
     return n, periods
+
+
+def irr_all(cashflows):
+    """全部实数 IRR（r > -1）。
+
+    NPV=0 令 x = 1/(1+r)，化为精确多项式 Σ cf_t·x^t；
+    返回所有正实根对应的 r（去重、升序）。无实根返回 []。
+    """
+    flows = [_f(cf) for cf in cashflows]
+    if len(flows) < 2:
+        raise ValueError("irr_all: need at least 2 cashflows")
+    while flows and flows[0] == 0:  # 前导 0 只降次数（x=0 ⇔ r→∞，排除）
+        flows.pop(0)
+    if len(flows) < 2:
+        raise ValueError("irr_all: need at least 2 non-leading-zero cashflows")
+    if len(flows) > 30:
+        raise ValueError("irr_all: too many cashflows for exact roots; use a numeric scan")
+
+    x = sp.Symbol("x")
+    poly = sp.Poly(sum(cf * x ** t for t, cf in enumerate(flows)), x)
+    rates = []
+    seen = set()
+    for root in poly.real_roots():
+        if sp.N(root, 30) <= 0:  # x>0 ⇔ r>-1
+            continue
+        rate = sp.simplify(1 / root - 1)
+        key = sp.srepr(rate)
+        if key in seen:
+            continue
+        seen.add(key)
+        rates.append(_wrap(rate))
+    rates.sort(key=lambda value: float(sp.N(getattr(value, "e", value), 30)))
+    return rates
 
 
 def bond_price(face, coupon_rate, years, ytm, freq=1):
@@ -186,7 +219,8 @@ def register(reg):
     reg.func("npv", ["rate", "cashflows", "start"], npv, doc="净现值；start=0 首笔 t=0，start=1 首笔第 1 年末")
     reg.func("annuity_pv", ["payment", "rate", "periods"], annuity_pv, doc="年金现值")
     reg.func("discount_factor", ["rate", "n"], discount_factor, doc="折现因子")
-    reg.func("irr", ["cashflows"], irr, doc="内部收益率（数值）")
+    reg.func("irr", ["cashflows"], irr, doc="内部收益率（单根，数值）")
+    reg.func("irr_all", ["cashflows"], irr_all, doc="全部实数 IRR（精确多项式根，无实根返回 []）")
     reg.func("bond_price", ["face", "coupon_rate", "years", "ytm", "freq"], bond_price, doc="债券价格")
     reg.func("bond_duration", ["face", "coupon_rate", "years", "ytm", "freq"], bond_duration, doc="麦考利久期")
     reg.func("black_scholes_call", ["spot", "strike", "years", "rate", "vol"], black_scholes_call, doc="看涨期权")

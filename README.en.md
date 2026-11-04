@@ -201,7 +201,7 @@ Multi-step in one call:
 
 - Operators/constants: `+ - * / % ** ^`, `pi`, `e`
 - Statistics: `sum mean std std_pop std_sample var_pop var_sample median quantile min max count corr cov regression`
-- Finance: `loan_pmt npv(rate, flows[, start]) annuity_pv discount_factor irr bond_price bond_duration black_scholes_call black_scholes_put`
+- Finance: `loan_pmt npv(rate, flows[, start]) annuity_pv discount_factor irr bond_price bond_duration black_scholes_call black_scholes_put irr_all`
 - Units: `unit_convert unit_add unit_mul unit_div unit_pow unit_eval convert`
 - Dates: `days_between date_add weekday`
 - Symbolic: `solve diff integrate simplify expand factor subs limit series taylor`

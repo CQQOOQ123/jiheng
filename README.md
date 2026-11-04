@@ -198,7 +198,7 @@ calc(expr="help(\"norm_cdf\")")                → norm_cdf(x, mu, sigma) — �
 
 - 运算/常量：`+ - * / % ** ^`、`pi`、`e`
 - 统计：`sum mean std std_pop std_sample var_pop var_sample median quantile min max count corr cov regression`
-- 金融：`loan_pmt npv(rate, flows[, start]) annuity_pv discount_factor irr bond_price bond_duration black_scholes_call black_scholes_put`
+- 金融：`loan_pmt npv(rate, flows[, start]) annuity_pv discount_factor irr bond_price bond_duration black_scholes_call black_scholes_put irr_all`
 - 单位：`unit_convert unit_add unit_mul unit_div unit_pow unit_eval` + `convert`
 - 日期：`days_between date_add weekday`
 - 符号：`solve diff integrate simplify expand factor subs limit series taylor`
