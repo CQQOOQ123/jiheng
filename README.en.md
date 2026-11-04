@@ -397,8 +397,8 @@ Quality audit: [`QUALITY.md`](https://github.com/CQQOOQ123/jiheng/blob/main/QUAL
 
 ```bash
 uv build --directory dsh-calc
-# dist/jiheng_mcp-0.3.4-py3-none-any.whl
-# dist/jiheng_mcp-0.3.4.tar.gz
+# dist/jiheng_mcp-0.3.5-py3-none-any.whl
+# dist/jiheng_mcp-0.3.5.tar.gz
 ```
 
 Docker:
@@ -410,7 +410,7 @@ docker run -i --rm jiheng-mcp
 
 ## Version & license
 
-- Version: `0.3.4`
+- Version: `0.3.5`
 - MCP package: `jiheng-mcp` on PyPI
 - DSH plugin id: `@local/jiheng`
 - License: **MIT** (see [LICENSE](https://github.com/CQQOOQ123/jiheng/blob/main/LICENSE))

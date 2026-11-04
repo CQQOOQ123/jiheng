@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.5] - 2026-11-05
+- `max_drawdown(prices[, allow_leading_zeros])` 显式参数：默认严格 >0，allow=1 允许前导 0
+- AI-USAGE 增加统计口径声明（总体/样本 ddof、max_drawdown 契约）
+- test_docs 增加 ddof / allow_leading_zeros 契约检查，防止文档回退
+- 能力包测试 135 → 141 项
+
 ## [0.3.4] - 2026-11-05
 - 链式符号类型纪律：stats 返回值统一 wrap，内核接受裸 SymPy（B12/C4/G1/G2）
 - `max_drawdown` 严格正价格：全零/0 起步/负价格明确报错

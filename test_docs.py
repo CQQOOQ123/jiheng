@@ -17,7 +17,7 @@ cp.load_packs(PACKS_DIR)
 doc = (PROJECT / "AI-USAGE.md").read_text(encoding="utf-8")
 
 missing_functions = [name for name in cp.FUNCS if name not in doc]
-contract = ["expr", "steps", "defs", "exact", "steps"]
+contract = ["expr", "steps", "defs", "exact", "steps", "ddof", "allow_leading_zeros"]
 missing_contract = [field for field in contract if field not in doc]
 
 print("functions:", len(cp.FUNCS), "| missing from doc:", len(missing_functions))

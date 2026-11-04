@@ -40,6 +40,16 @@ calc({
 - `N(expr, digits)` 显式数值化（如 `N(pi/3, 30)`）；`strict_numeric=1` 时，无法精确表示的结果会直接报错，而不是给近似
 - `w` 出现时先读它
 
+### 统计口径（重要）
+
+```text
+std / std_pop / var / var_pop        = 总体（ddof=0）
+std_sample / var_sample              = 样本（ddof=1）
+sharpe / zscore / cov 内部            = 样本（ddof=1）
+max_drawdown(prices[, allow_leading_zeros])
+  默认要求价格严格 > 0；allow_leading_zeros=1 允许前导 0（负价永远报错）
+```
+
 ## 2. 语法速查
 
 ### 运算
@@ -56,7 +66,7 @@ calc({
 |---|---|
 | 基础 | `sqrt abs round floor ceil exp ln log(b?) N(expr, digits)` |
 | 三角 | `sin cos tan atan` |
-| 统计 | `sum mean std std_sample std_pop var_pop var_sample median quantile min max count first last` |
+| 统计 | `sum mean std std_sample std_pop var var_pop var_sample median quantile min max count first last` |
 | 金融 | `loan_pmt(P,年利率,年数) cagr(末,初,年) fv(P,r,n) discount(价,百分比) markup pct_of` |
 | 单位 | `convert(值,"from","to")`（速度/长度/质量/数据） |
 | 符号 | `solve solve_real diff simplify expand factor subs`、`integrate(式,x) limit(式,x,点) taylor(式,x,点,阶)` |
@@ -64,7 +74,7 @@ calc({
 | 查函数 | `functions()` 列出全部函数名；`help("norm_cdf")` 查看签名与说明 |
 | 并行拆题 | `calc_shard(expr, var, from, to, shards, mode, op)`：切片并行积分/求和后合并 |
 | 序列 | `series(式, x, 起, 止[, 步长])` → 数组 |
-| 统计包 | `corr cov dot regression`、`pct_change log_returns cumsum zscore sharpe max_drawdown` |
+| 统计包 | `corr cov dot regression`、`pct_change log_returns cumsum zscore sharpe`、`max_drawdown(prices[, allow_leading_zeros])` |
 | 金融包 | `npv(rate, flows[, start])`（start=0 首笔 t=0；start=1 首笔第 1 年末）、`annuity_pv discount_factor irr bond_price bond_duration black_scholes_call black_scholes_put` |
 | 分布包 | `norm_pdf norm_cdf norm_quantile t_pdf chi2_pdf` |
 | 线代包 | `det inv eigenvals solve_linear transpose matmul` |
