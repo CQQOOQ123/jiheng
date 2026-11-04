@@ -21,19 +21,37 @@
 ### 方式 A：MCP 服务器（推荐给非 DSH 客户端）
 
 ```bash
-# 本地目录安装
+# 从 PyPI 安装（推荐）
+uvx jiheng-mcp
+# 或
+pip install jiheng-mcp
+
+# 开发时从本地目录
 uvx --from ./dsh-calc jiheng-mcp
 
-# 或从 git 仓库
+# 或直接从 git 仓库
 uvx --from git+https://github.com/CQQOOQ123/jiheng jiheng-mcp
 ```
 
-MCP 客户端配置：
+MCP 客户端配置（PyPI）：
 
 ```json
 {
   "mcpServers": {
-    "calc": {
+    "jiheng": {
+      "command": "uvx",
+      "args": ["jiheng-mcp"]
+    }
+  }
+}
+```
+
+从 git 安装的配置：
+
+```json
+{
+  "mcpServers": {
+    "jiheng": {
       "command": "uvx",
       "args": ["--from", "git+https://github.com/CQQOOQ123/jiheng", "jiheng-mcp"]
     }
