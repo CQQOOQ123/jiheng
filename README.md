@@ -1,5 +1,7 @@
 # 玑衡 Jiheng — 给 AI 的精确计算层
 
+[English](README.en.md) | 中文
+
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **玑衡（Jiheng）**：以古代测天仪器“璇玑玉衡”为名，做 AI 的精确计算层。

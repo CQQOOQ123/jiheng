@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1] - 2026-11-05
+
+- 新增英文 README（PyPI 页面使用英文版）
+- GitHub Actions：测试 + Trusted Publishing 自动发布
+- 测试脚本适配仓库布局（packs/、AI-USAGE）
+- 补充项目 CHANGELOG
+
 ## [0.3.0] - 2026-11-05
 
 首个公开版本：玑衡（Jiheng）——给 AI 的精确计算层。
