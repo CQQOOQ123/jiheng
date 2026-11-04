@@ -1,6 +1,6 @@
 # 玑衡 Jiheng — 给 AI 的精确计算层
 
-[English](README.en.md) | 中文
+[English](https://github.com/CQQOOQ123/jiheng/blob/main/README.en.md) | 中文
 
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 

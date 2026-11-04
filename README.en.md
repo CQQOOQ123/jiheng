@@ -4,7 +4,7 @@
 [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-[中文](README.md) | English
+[中文](https://github.com/CQQOOQ123/jiheng/blob/main/README.md) | English
 
 **Jiheng** is named after the ancient Chinese astronomical instrument *xuanji yuheng*
 (“to measure the heavens precisely”). It gives AI agents an exact computation layer:
@@ -143,7 +143,7 @@ Multi-step in one call:
 - Distributions: `norm_pdf norm_cdf norm_quantile t_pdf chi2_pdf`
 - Discovery: `functions()`, `help("name")`
 
-See [`AI-USAGE.md`](./AI-USAGE.md) for the full contract (60+ functions).
+See [`AI-USAGE.md`](https://github.com/CQQOOQ123/jiheng/blob/main/AI-USAGE.md) for the full contract (60+ functions).
 
 ## Configuration
 
@@ -250,7 +250,7 @@ def register(reg):
 ```
 
 - Pure functions, no IO/state, exact values in/out
-- Hot-reloaded on change; see [`PACKS.md`](./PACKS.md)
+- Hot-reloaded on change; see [`PACKS.md`](https://github.com/CQQOOQ123/jiheng/blob/main/PACKS.md)
 
 ## Parallel shards (`calc_shard`)
 
@@ -320,4 +320,4 @@ docker run -i --rm jiheng-mcp
 - Version: `0.3.1`
 - MCP package: `jiheng-mcp` on PyPI
 - DSH plugin id: `@local/jiheng`
-- License: **MIT** (see [LICENSE](LICENSE))
+- License: **MIT** (see [LICENSE](https://github.com/CQQOOQ123/jiheng/blob/main/LICENSE))
