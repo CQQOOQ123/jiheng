@@ -250,6 +250,30 @@ def register(reg):
 ```
 
 - Pure functions, no IO/state, exact values in/out
+| Pack | Provides |
+|---|---|
+| `stats` | correlation, covariance, dot product, linear regression |
+| `finance` | NPV, annuities, IRR, bonds, Black-Scholes |
+| `calculus` | integrate / limit / taylor |
+| `calculus2` | nintegrate / summation |
+| `distributions` | normal / t / chi-square pdf, cdf, quantiles |
+| `linalg` | determinant, inverse, eigenvalues, linear solve, matmul |
+| `ode` | first-order ODE `dsolve` |
+| `special` | gamma, erf, Bessel, factorial, binomial, beta, zeta |
+| `strategy` | integral checks, integration by parts, partial fractions, trig simplification |
+| `units` | unit conversion/mul/div/pow, temperature |
+| `dates` | date differences, date arithmetic, weekday |
+| `currency` | currency conversion |
+| `percent` | share, YoY, tax-inclusive/exclusive, discount, growth multiple |
+| `engineering` | stress, strain, beam deflection, bending stress, heat flux, thermal resistance |
+| `templates` | quotes, tax, discounts, margin, markup, remaining principal, wastage |
+| `templates_hr` | overtime pay, N+1 compensation, income tax, social insurance base |
+| `templates_logistics` | volumetric weight, chargeable weight, shipping cost |
+| `templates_manufacturing` | yield, OEE, material cost, labor cost |
+| `templates_retail` | double discount, rebate, average ticket, sell-through rate |
+
+**19 capability packs**, bundled and hot-reloaded.
+
 - Hot-reloaded on change; see [`PACKS.md`](https://github.com/CQQOOQ123/jiheng/blob/main/PACKS.md)
 
 ## Parallel shards (`calc_shard`)
