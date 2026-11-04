@@ -439,9 +439,16 @@ def _factor(expr):
     return _wrap(sp.factor(_sym(expr)))
 
 
-def _subs(expr, var, value):
-    v = _require_symbol(var, "subs")
-    return _wrap(_sym(expr).subs(v.e, _sym(value)))
+def _subs(expr, var, value, *rest):
+    """单次或多次代入：subs(expr, x, 1, y, 2)。"""
+    pairs = [(var, value)] + [(rest[i], rest[i + 1]) for i in range(0, len(rest), 2)]
+    if len(rest) % 2:
+        raise ValueError("subs: extra arguments must be var/value pairs")
+    result = _sym(expr)
+    for pair_var, pair_value in pairs:
+        v = _require_symbol(pair_var, "subs")
+        result = result.subs(v.e, _sym(pair_value))
+    return _wrap(result)
 
 
 def _solve_real(expr, var):

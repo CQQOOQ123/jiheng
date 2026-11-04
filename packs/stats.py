@@ -132,19 +132,24 @@ def sharpe(returns, rf=0):
 
 
 def max_drawdown(prices):
-    """最大回撤（负小数，如 -1/4）。"""
+    """最大回撤（负小数，如 -1/4）。
+
+    价格必须严格为正：0 或负价格会让回撤定义变成 0/0 或负分母，
+    这里直接报错，而不是静默返回 0。
+    """
     if not prices:
         raise ValueError("max_drawdown: empty price series")
     peak = None
     worst = Fraction(0)
     for value in prices:
         v = _f(value)
+        if v <= 0:
+            raise ValueError("max_drawdown: prices must be > 0; drawdown is undefined for zero/negative prices")
         if peak is None or v > peak:
             peak = v
-        if peak:
-            dd = (v - peak) / peak
-            if dd < worst:
-                worst = dd
+        dd = (v - peak) / peak
+        if dd < worst:
+            worst = dd
     return worst
 
 

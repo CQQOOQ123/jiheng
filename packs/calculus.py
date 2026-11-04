@@ -24,13 +24,33 @@ def _wrap(value):
 def integrate(expr, var):
     if not hasattr(var, "e"):
         raise ValueError("integrate: second argument must be a single-letter variable")
-    return _wrap(sp.integrate(_sp(expr), var.e))
+    result = sp.integrate(_sp(expr), var.e)
+    if result.has(sp.Integral):
+        raise ValueError(
+            "integrate: no closed form found; the result would be an unevaluated Integral. "
+            "Use nintegrate(expr, x, a, b) for a numeric value."
+        )
+    return _wrap(result)
 
 
 def limit(expr, var, point):
     if not hasattr(var, "e"):
         raise ValueError("limit: second argument must be a single-letter variable")
-    return _wrap(sp.limit(_sp(expr), var.e, _sp(point)))
+    e = sp.sympify(_sp(expr))
+    v = var.e
+    p = sp.sympify(_sp(point))
+    result = sp.limit(e, v, p)
+    if p.is_finite:
+        left = sp.limit(e, v, p, dir="-")
+        right = sp.limit(e, v, p, dir="+")
+        if left != right:
+            raise ValueError(
+                "limit: two-sided limit does not exist at %s (left=%s, right=%s); "
+                "one-sided limits are not supported" % (p, left, right)
+            )
+    if result is sp.nan or result.has(sp.AccumBounds):
+        raise ValueError("limit: no well-defined limit at %s (got %s)" % (p, result))
+    return _wrap(result)
 
 
 def taylor(expr, var, point, order):
