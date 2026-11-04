@@ -80,6 +80,12 @@ check_prefix("black_scholes_call(100, 1000, 0.1, 0.05, 0.2)", "1.602049234")
 能力包测试 101 → 124 项，全部通过
 ```
 
+- `solve` / `limit` 返回主值解（例如 `solve(sin(x), x)` 给 0、π），不表示一般解 nπ；
+  需要一般解时请自行加周期或明确域名
+- `integrate(1/x, x)` 返回 `log(x)`，默认复数域/正区间；跨负区间的定积分需自行处理
+- `currency_*` 的汇率来自 `.calc/currency.json`（数据，不是实时行情）；对给定汇率的算术是精确的
+- `black_scholes_*` 是数值结果（`exact=false`），只是用高精度避免下溢
+
 ## 结论
 
 这五类问题的共同点是：**happy path 很强，unhappy path 假装正常**。
