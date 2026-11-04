@@ -1,0 +1,15 @@
+- insert:
+    - id: jiheng
+      name: '@local/jiheng'
+      config:
+        calcHome: 'D:/AI/DeepSeek-workplace/创造模式/.calc'
+        # 使用策略：always | complex | auto | never | custom
+        #   always  = 任何计算都调工具
+        #   complex = 只在数组/折扣/复利/单位/符号/3步以上/大数/金额时调（默认）
+        #   auto    = 让模型自己判断
+        #   never   = 完全不注册工具
+        #   custom  = 用 customRules 里的自然语言规则
+        policy: complex
+        customRules: ''
+        workers: 1
+        maxWorkers: 8

@@ -1,0 +1,52 @@
+{
+  "name": "@local/jiheng",
+  "version": "0.3.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "玑衡 Jiheng — 给 AI 的精确计算层（DSH 插件）：精确有理数、符号计算、统计/金融/工程/日期能力包。",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "worker.py",
+    "calc_core.py",
+    "packs/*.py",
+    "README.md",
+    "AI-USAGE.md",
+    "PACKS.md",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "keywords": [
+    "dsh-plugin",
+    "calculator",
+    "exact",
+    "sympy",
+    "ai",
+    "mcp",
+    "jiheng"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CQQOOQ123/jiheng.git"
+  }
+}
