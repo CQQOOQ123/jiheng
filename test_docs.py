@@ -3,12 +3,18 @@
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "dsh-calc"))
+HERE = Path(__file__).resolve().parent
+PROJECT = HERE if (HERE / "AI-USAGE.md").is_file() else HERE.parent / "dsh-calc"
+sys.path.insert(0, str(PROJECT))
 import calc_core as cp  # noqa: E402
 
-cp.load_packs(ROOT / ".calc" / "plugins")
-doc = (ROOT / "dsh-calc" / "AI-USAGE.md").read_text(encoding="utf-8")
+PACKS_DIR = next(
+    (path for path in (PROJECT / "packs", PROJECT.parent / ".calc" / "plugins") if path.is_dir()),
+    None,
+)
+assert PACKS_DIR is not None, "能力包目录不存在"
+cp.load_packs(PACKS_DIR)
+doc = (PROJECT / "AI-USAGE.md").read_text(encoding="utf-8")
 
 missing_functions = [name for name in cp.FUNCS if name not in doc]
 contract = ["expr", "steps", "defs", "exact", "steps"]
