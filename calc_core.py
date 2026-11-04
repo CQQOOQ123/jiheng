@@ -162,6 +162,18 @@ def _wrap(e):
     return Sym(e)
 
 
+def int_arg(value, name="value"):
+    """严格整数输入：拒绝小数，绝不静默截断。"""
+    inner = getattr(value, "e", value)
+    try:
+        e = sp.sympify(inner)
+    except Exception:
+        raise ValueError("%s must be an integer, got %r" % (name, value))
+    if not e.is_Integer:
+        raise ValueError("%s must be an integer, got %s (refusing to truncate)" % (name, value))
+    return int(e)
+
+
 def _num(v):
     if isinstance(v, IntervalValue):
         raise ValueError("interval values cannot be used in further arithmetic; "
@@ -288,6 +300,8 @@ def _mean(a):
 def _variance(a, ddof=0):
     n = len(a)
     denom = n - ddof
+    if n == 0:
+        raise ValueError("variance of an empty list")
     if denom <= 0:
         need = ddof + 1
         raise ValueError("variance: need at least %d values (got %d)" % (need, n))
@@ -301,6 +315,10 @@ def _variance(a, ddof=0):
 
 def _std(a, ddof=0):
     return _sqrt(_variance(a, ddof))
+
+
+def _sort_key(x):
+    return float(sp.N(_sym(x), 30))
 
 
 def _sorted_values(a):
@@ -326,6 +344,12 @@ def _quantile(a, q):
         raise ValueError("quantile of an empty list")
     s = _sorted_values(a)
     qv = _num(q)
+    if isinstance(qv, Sym):
+        qnum = float(sp.N(qv.e, 30))
+    else:
+        qnum = float(qv)
+    if qnum < 0 or qnum > 1:
+        raise ValueError("quantile: q must be between 0 and 1, got %s" % qv)
     pos = (len(s) - 1) * qv
     lo = int(sp.floor(_sym(pos))) if isinstance(pos, Sym) else int(math.floor(pos))
     hi = min(lo + 1, len(s) - 1)
@@ -337,11 +361,21 @@ def _quantile(a, q):
 
 def _loan_pmt(P, annual_rate, years):
     P, r = _frac(P), _frac(annual_rate) / 12
-    n = int(_frac(years) * 12)
+    n = int_arg(_frac(years) * 12, "years * 12 (months)")
+    if n <= 0:
+        raise ValueError("loan_pmt: years must be positive")
+    if r == 0:
+        return P / n
     return P * r * (1 + r) ** n / ((1 + r) ** n - 1)
 
 
 def _cagr(end, start, years):
+    start = _frac(start)
+    years = _frac(years)
+    if start <= 0:
+        raise ValueError("cagr: start must be > 0")
+    if years == 0:
+        raise ValueError("cagr: years must be non-zero")
     return _sub(_pow(_div(end, start), _div(1, years)), 1)
 
 
@@ -385,7 +419,9 @@ def _solve(expr, var):
 
 def _diff(expr, var, order=1):
     v = _require_symbol(var, "diff")
-    n = int(_frac(order))
+    n = int_arg(order, "order")
+    if n < 0:
+        raise ValueError("diff: order must be >= 0")
     if isinstance(expr, Fraction):
         return Fraction(0)
     return _wrap(sp.diff(_sym(expr), v.e, n))

@@ -21,7 +21,10 @@ def _sp(v):
 
 
 def gamma(x):
-    return _wrap(sp.gamma(_sp(x)))
+    e = sp.sympify(_sp(x))
+    if e.is_Integer and e <= 0:
+        raise ValueError("gamma: pole at non-positive integers (x=%s)" % e)
+    return _wrap(sp.gamma(e))
 
 
 def erf(x):
@@ -29,19 +32,22 @@ def erf(x):
 
 
 def besselj(n, x):
-    order = int(_sp(n))
-    return _wrap(sp.besselj(order, _sp(x)))
+    return _wrap(sp.besselj(sp.sympify(_sp(n)), _sp(x)))
 
 
 def factorial(n):
-    value = int(_sp(n))
+    value = _core.int_arg(n, "n")
     if value < 0 or value > 10000:
         raise ValueError("factorial: n must be between 0 and 10000")
     return _wrap(sp.factorial(value))
 
 
 def binomial(n, k):
-    return _wrap(sp.binomial(int(_sp(n)), int(_sp(k))))
+    nn = _core.int_arg(n, "n")
+    kk = _core.int_arg(k, "k")
+    if nn < 0 or kk < 0 or kk > nn:
+        raise ValueError("binomial: need integers with 0 <= k <= n")
+    return _wrap(sp.binomial(nn, kk))
 
 
 def beta(a, b):
@@ -49,7 +55,10 @@ def beta(a, b):
 
 
 def zeta(s):
-    return _wrap(sp.zeta(_sp(s)))
+    e = sp.sympify(_sp(s))
+    if e == 1:
+        raise ValueError("zeta: pole at s=1")
+    return _wrap(sp.zeta(e))
 
 
 def register(reg):

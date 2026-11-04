@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
 
 import calc_core as cp  # noqa: E402
 
-VERSION = "0.3.2"
+VERSION = "0.3.3"
 PROTOCOL = "2024-11-05"
 
 TOOL = {

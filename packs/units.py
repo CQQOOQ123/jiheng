@@ -202,7 +202,7 @@ def unit_add(v1, u1, v2, u2):
 
 def unit_pow(value, unit, exponent):
     f, d = _parse(unit)
-    n = int(_f(exponent))
+    n = _core.int_arg(exponent, "exponent")
     dims = tuple(power * n for power in d)
     return [_wrap(_f(value) ** n * f ** n), _name(dims)]
 
@@ -221,6 +221,9 @@ def temp_convert(value, from_unit, to_unit):
         celsius = raw - Fraction(5463, 20)
     else:
         raise ValueError("temp_convert: unit must be C, F or K")
+    absolute_zero = -Fraction(5463, 20)
+    if celsius < absolute_zero:
+        raise ValueError("temp_convert: temperature is below absolute zero")
     if target == "C":
         return celsius
     if target == "F":

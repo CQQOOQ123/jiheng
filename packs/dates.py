@@ -42,7 +42,7 @@ def days_between(start, end):
 
 def date_add(start, days):
     """日期加减天数，返回 YYYY-MM-DD。"""
-    amount = int(getattr(days, "e", days))
+    amount = _core.int_arg(days, "days")
     return (_parse(start) + timedelta(days=amount)).isoformat()
 
 

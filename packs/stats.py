@@ -133,6 +133,8 @@ def sharpe(returns, rf=0):
 
 def max_drawdown(prices):
     """最大回撤（负小数，如 -1/4）。"""
+    if not prices:
+        raise ValueError("max_drawdown: empty price series")
     peak = None
     worst = Fraction(0)
     for value in prices:

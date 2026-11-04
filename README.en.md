@@ -378,6 +378,8 @@ A: A clear error (e.g. `2026-02-30`), never normalized to March 2.
 **Q: What is `api retries exhausted`?**
 A: The model API failed after 6 retries (rate limit/network); not a calculator error.
 
+Quality audit: [`QUALITY.md`](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)
+
 ## Known limitations
 
 - Not a Python expression language: no comprehensions/loops/assignments (intentional)
@@ -390,8 +392,8 @@ A: The model API failed after 6 retries (rate limit/network); not a calculator e
 
 ```bash
 uv build --directory dsh-calc
-# dist/jiheng_mcp-0.3.2-py3-none-any.whl
-# dist/jiheng_mcp-0.3.2.tar.gz
+# dist/jiheng_mcp-0.3.3-py3-none-any.whl
+# dist/jiheng_mcp-0.3.3.tar.gz
 ```
 
 Docker:
@@ -403,7 +405,7 @@ docker run -i --rm jiheng-mcp
 
 ## Version & license
 
-- Version: `0.3.2`
+- Version: `0.3.3`
 - MCP package: `jiheng-mcp` on PyPI
 - DSH plugin id: `@local/jiheng`
 - License: **MIT** (see [LICENSE](https://github.com/CQQOOQ123/jiheng/blob/main/LICENSE))

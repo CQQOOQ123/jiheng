@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jiheng-mcp"
-version = "0.3.2"
+version = "0.3.3"
 description = "Jiheng (玑衡): an exact computation layer for AI agents over MCP. Fractions, radicals, symbolic math, statistics, finance, units, dates, parallel shards."
 readme = "README.en.md"
 requires-python = ">=3.10"

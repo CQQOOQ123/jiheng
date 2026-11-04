@@ -36,7 +36,7 @@ def limit(expr, var, point):
 def taylor(expr, var, point, order):
     if not hasattr(var, "e"):
         raise ValueError("taylor: second argument must be a single-letter variable")
-    n = int(_sp(order))
+    n = _core.int_arg(order, "order")
     if n < 0 or n > 20:
         raise ValueError("taylor: order must be between 0 and 20")
     return _wrap(sp.series(_sp(expr), var.e, _sp(point), n + 1).removeO())

@@ -333,11 +333,13 @@ calc_shard(expr="x*exp(x)", var="x", from=0, to=1, shards=4, mode="integrate", o
 
 ```bash
 python dsh-calc/test_cases.py       # 63 项：精度/统计/语义/错误/安全
-python dsh-calc/test_packs.py       # 93 项：能力包
+python dsh-calc/test_packs.py       # 124 项：能力包
 python dsh-calc/test_worker.py      # 12 项：worker 协议/热加载/ready
 node dsh-calc/test_client_contract.mjs  # 8 项：客户端契约
 node dsh-calc/test_routes.mjs http://127.0.0.1:3379  # 26 项：HTTP 路由
 python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
+
+质量审计记录见 [`QUALITY.md`](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)。
 ```
 
 基准（1000 题混合题集，deepseek-v4-flash，自然使用模式）：**97.6%**（976/1000）。
@@ -418,7 +420,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.2`。
+当前 `0.3.3`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3] - 2026-11-05
+- 修复静默失败：整数截断、零方差、多重 IRR、深度虚值期权下溢
+- 新增严格整数校验（bond/date/discount/annuity/factorial/binomial/unit_pow/diff/templates）
+- 新增 `var` 总体方差别名；`std`/`var` 与样本函数口径分离
+- 修复 min/max 空列表、quantile 越界、gamma/zeta 极点、绝对零度、零利率贷款等边界
+- 能力包测试 93 → 124 项
+
 ## [0.3.2] - 2026-11-05
 - 修正 PyPI 页面语言切换链接（改为 GitHub 绝对地址）
 - 中文 / 英文 README 互链可直接跳转

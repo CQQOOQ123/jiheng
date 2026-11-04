@@ -31,7 +31,10 @@ def discount_factor(rate, n):
     r = _f(rate)
     if r <= -1:
         raise ValueError("discount_factor: rate must be > -1")
-    return Fraction(1, 1) / (1 + r) ** int(_f(n))
+    periods = _core.int_arg(n, "n")
+    if periods < 0:
+        raise ValueError("discount_factor: n must be >= 0")
+    return Fraction(1, 1) / (1 + r) ** periods
 
 
 def npv(rate, cashflows, start=0):
@@ -43,7 +46,7 @@ def npv(rate, cashflows, start=0):
     r = _f(rate)
     if r <= -1:
         raise ValueError("npv: rate must be > -1")
-    offset = int(getattr(start, "e", start))
+    offset = _core.int_arg(start, "start")
     if offset not in (0, 1):
         raise ValueError("npv: start must be 0 or 1")
     total = Fraction(0)
@@ -54,7 +57,9 @@ def npv(rate, cashflows, start=0):
 
 def annuity_pv(payment, rate, periods):
     r = _f(rate)
-    n = int(_f(periods))
+    n = _core.int_arg(periods, "periods")
+    if n <= 0:
+        raise ValueError("annuity_pv: periods must be positive")
     if r == 0:
         return _f(payment) * n
     return _f(payment) * (1 - (1 + r) ** (-n)) / r
@@ -120,6 +125,8 @@ def _bond_periods(years, freq):
 def bond_price(face, coupon_rate, years, ytm, freq=1):
     """债券价格：面值 + 票息，按年或按频次折现。"""
     n, periods = _bond_periods(years, freq)
+    if _f(face) <= 0:
+        raise ValueError("bond_price: face must be > 0")
     c = _f(face) * _f(coupon_rate) / n
     y = _f(ytm) / n
     if y <= -1:
@@ -137,6 +144,8 @@ def bond_duration(face, coupon_rate, years, ytm, freq=1):
     c = _f(face) * _f(coupon_rate) / n
     y = _f(ytm) / n
     price = bond_price(face, coupon_rate, years, ytm, freq)
+    if price == 0:
+        raise ValueError("bond_duration: price is zero (face must be > 0)")
     weighted = Fraction(0)
     for t in range(1, periods + 1):
         weighted += t * c / (1 + y) ** t

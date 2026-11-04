@@ -33,7 +33,10 @@ def 含税(price, rate):
 
 def 去税(price, rate):
     """不含税价 = 含税价 / (1 + 税率)。"""
-    return _wrap(_f(price) / (1 + _f(rate)))
+    denom = 1 + _f(rate)
+    if denom == 0:
+        raise ValueError("去税: 税率不能为 -1（分母为 0）")
+    return _wrap(_f(price) / denom)
 
 
 def 折扣价(price, discount):
@@ -74,7 +77,7 @@ def 损耗后(quantity, loss):
 
 def _pmt(principal, annual, years):
     r = _f(annual) / 12
-    n = int(_f(years)) * 12
+    n = _core.int_arg(_f(years) * 12, "years * 12")
     if r == 0:
         return _f(principal) / n
     factor = (1 + r) ** n
@@ -85,8 +88,8 @@ def 剩余本金(principal, annual, years, paid_periods):
     """等额本息第 k 期后的剩余本金。"""
     p = _f(principal)
     r = _f(annual) / 12
-    n = int(_f(years)) * 12
-    k = int(_f(paid_periods))
+    n = _core.int_arg(_f(years) * 12, "years * 12")
+    k = _core.int_arg(paid_periods, "paid_periods")
     if k < 0 or k > n:
         raise ValueError("剩余本金: 期数必须在 0 到总期数之间")
     payment = _pmt(principal, annual, years)
