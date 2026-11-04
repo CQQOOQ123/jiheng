@@ -369,7 +369,7 @@ Benchmark (1000 mixed tasks, deepseek-v4-flash, natural usage): **97.6%** (976/1
 
 **Q: Is `std` sample or population?**
 A: `std`/`std_pop`/`var`/`var_pop` are population; `std_sample`/`var_sample` are sample.
-`sharpe`, `zscore` and `cov` use the sample convention internally (ddof=1).
+`sharpe`, `zscore` and `cov` use the sample convention internally (ddof=1). `max_drawdown` requires strictly positive prices by default; `allow_leading_zeros=1` permits leading zeros.
 
 **Q: Why is `N(...)` not the normal CDF?**
 A: `N(expr, digits)` is numeric evaluation; use `norm_cdf(x)`.

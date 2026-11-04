@@ -143,25 +143,49 @@ def sharpe(returns, rf=0):
     return _wrap((m - _f(rf)) / s)
 
 
-def max_drawdown(prices):
+def max_drawdown(prices, allow_leading_zeros=0):
     """最大回撤（负小数，如 -1/4）。
 
-    价格必须严格为正：0 或负价格会让回撤定义变成 0/0 或负分母，
-    这里直接报错，而不是静默返回 0。
+    默认（allow_leading_zeros=0）：所有价格必须严格 > 0。
+    显式传 allow_leading_zeros=1 时：允许跳过开头连续的 0，直到第一个正价格；
+    之后出现 0 按 -100% 回撤处理；负价格仍然报错；全零序列报错。
     """
     if not prices:
         raise ValueError("max_drawdown: empty price series")
+    allow = bool(_core.int_arg(allow_leading_zeros, "allow_leading_zeros"))
     peak = None
     worst = Fraction(0)
+    started = False
     for value in prices:
         v = _f(value)
-        if v <= 0:
-            raise ValueError("max_drawdown: prices must be > 0; drawdown is undefined for zero/negative prices")
-        if peak is None or v > peak:
+        if v < 0:
+            raise ValueError("max_drawdown: negative prices are not allowed")
+        if not started:
+            if v == 0:
+                if not allow:
+                    raise ValueError(
+                        "max_drawdown: prices must be > 0; drawdown is undefined for "
+                        "zero/negative prices"
+                    )
+                continue
+            started = True
             peak = v
-        dd = (v - peak) / peak
+            continue
+        if v == 0:
+            if not allow:
+                raise ValueError(
+                    "max_drawdown: prices must be > 0; drawdown is undefined for "
+                    "zero/negative prices"
+                )
+            dd = Fraction(-1)
+        else:
+            if v > peak:
+                peak = v
+            dd = (v - peak) / peak
         if dd < worst:
             worst = dd
+    if not started:
+        raise ValueError("max_drawdown: all prices are zero; drawdown is undefined")
     return _wrap(worst)
 
 
@@ -175,4 +199,4 @@ def register(reg):
     reg.func("cumsum", ["xs"], cumsum, doc="累计和")
     reg.func("zscore", ["xs"], zscore, doc="标准化（样本 std，ddof=1）")
     reg.func("sharpe", ["returns", "rf"], sharpe, doc="夏普比率（未年化，样本 std，ddof=1）")
-    reg.func("max_drawdown", ["prices"], max_drawdown, doc="最大回撤")
+    reg.func("max_drawdown", ["prices", "allow_leading_zeros"], max_drawdown, doc="最大回撤（默认严格>0；allow_leading_zeros=1 允许前导 0）")

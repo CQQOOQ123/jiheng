@@ -350,7 +350,7 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 
 **Q：`std` 是样本还是总体？**
 A：`std`/`std_pop`/`var`/`var_pop` 是总体；`std_sample`/`var_sample` 是样本。
-`sharpe`、`zscore`、`cov` 内部使用样本口径（ddof=1）。
+`sharpe`、`zscore`、`cov` 内部使用样本口径（ddof=1）；`max_drawdown` 默认要求价格严格 >0，`allow_leading_zeros=1` 时允许前导 0。
 
 **Q：为什么 `N(...)` 不等于正态 CDF？**
 A：`N(expr, digits)` 是数值求值；正态 CDF 用 `norm_cdf(x)`。
