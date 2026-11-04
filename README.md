@@ -1,14 +1,16 @@
-# 玑衡 Jiheng — 给 AI 的精确计算层
+# 玑衡 Jiheng — 给 AI 产品用的精确数学层
 
 [English](https://github.com/CQQOOQ123/jiheng/blob/main/README.en.md) | 中文
 
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**玑衡（Jiheng）**：以古代测天仪器“璇玑玉衡”为名，做 AI 的精确计算层。
-精确有理数 + 符号计算 + 统计/金融/单位/日期能力包，既可作为 **DSH 插件**，也可作为
-**独立 MCP 服务器** 接入任意 MCP 客户端。
+**分数不丢、根号不近似、绝不静默舍入。**
 
-一句话：**让模型不心算、不猜单位、不静默舍入**。
+> 模型很擅长推理，却不擅长算术。一个被静默舍入的数字，可能一路传进报价、报表或仓位里。
+> 玑衡只做一件事：**要么给出精确值，要么明确告诉你为什么给不了。**
+
+以古代测天仪器“璇玑玉衡”为名：测量要准，计算也是。
+既可作为 **DSH 插件**，也可作为 **独立 MCP 服务器** 接入任意 MCP 客户端。
 
 | 能力 | 说明 |
 |---|---|

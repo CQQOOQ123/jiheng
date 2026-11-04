@@ -1,4 +1,4 @@
-# Jiheng (玑衡) — an exact computation layer for AI
+# Jiheng (玑衡) — the exact math layer for AI products
 
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/)
@@ -6,11 +6,15 @@
 
 [中文](https://github.com/CQQOOQ123/jiheng/blob/main/README.md) | English
 
-**Jiheng** is named after the ancient Chinese astronomical instrument *xuanji yuheng*
-(“to measure the heavens precisely”). It gives AI agents an exact computation layer:
-fractions stay fractions, radicals stay radicals, and nothing is silently rounded.
+**Fractions stay fractions. Radicals stay radicals. Nothing silently rounds.**
 
-It ships as both an **MCP server** (`jiheng-mcp`) and a **DSH plugin**.
+> LLMs are great at reasoning and bad at arithmetic. One silently rounded number can
+> propagate into a price, a report, or a trade. Jiheng does one job: **return the exact
+> value, or tell you clearly why it cannot.**
+
+Named after the ancient Chinese astronomical instrument *xuanji yuheng* — measurement
+has to be exact, and so does computation. Ships as an **MCP server** (`jiheng-mcp`) and
+a **DSH plugin**.
 
 | Capability | Details |
 |---|---|
