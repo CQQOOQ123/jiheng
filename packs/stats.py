@@ -13,9 +13,22 @@ from fractions import Fraction  # noqa: E402
 
 import sympy as sp  # noqa: E402
 
+import calc_core as _core  # noqa: E402
+
 
 def _f(v):
-    return v if isinstance(v, Fraction) else Fraction(v)
+    if isinstance(v, Fraction):
+        return v
+    inner = getattr(v, "e", None)
+    if inner is not None:
+        return inner
+    if isinstance(v, sp.Basic):
+        return v
+    return Fraction(v)
+
+
+def _wrap(v):
+    return _core._wrap(v)
 
 
 def _total(xs):
@@ -29,7 +42,7 @@ def _mean(xs):
 def dot(x, y):
     if len(x) != len(y):
         raise ValueError("dot: arrays must have equal length")
-    return sum((_f(a) * _f(b) for a, b in zip(x, y)), Fraction(0))
+    return _wrap(sum((_f(a) * _f(b) for a, b in zip(x, y)), Fraction(0)))
 
 
 def cov(x, y):
@@ -38,16 +51,17 @@ def cov(x, y):
     n = len(x)
     mx, my = _mean(x), _mean(y)
     s = sum(((_f(a) - mx) * (_f(b) - my) for a, b in zip(x, y)), Fraction(0))
-    return s / (n - 1)
+    return _wrap(s / (n - 1))
 
 
 def corr(x, y):
     c = cov(x, y)
     sx = _std_sample(x)
     sy = _std_sample(y)
-    if sx == 0 or sy == 0:
+    sx_s, sy_s = _core._sym(sx), _core._sym(sy)
+    if sp.simplify(sx_s) == 0 or sp.simplify(sy_s) == 0:
         raise ValueError("corr: a series has zero variance")
-    return sp.simplify(sp.Rational(c.numerator, c.denominator) / (sx * sy))
+    return _wrap(sp.simplify(_core._sym(c) / (sx_s * sy_s)))
 
 
 def _std_sample(xs):
@@ -56,9 +70,7 @@ def _std_sample(xs):
         raise ValueError("sample standard deviation needs at least 2 values")
     m = _mean(xs)
     var = sum(((_f(v) - m) ** 2 for v in xs), Fraction(0)) / (n - 1)
-    rn = sp.Integer(var.numerator)
-    rd = sp.Integer(var.denominator)
-    return sp.sqrt(rn) / sp.sqrt(rd)
+    return sp.sqrt(sp.sympify(var))
 
 
 def regression(x, y):
@@ -76,14 +88,14 @@ def regression(x, y):
     slope = (n * sxy - sx * sy) / denom
     intercept = (sy - slope * sx) / n
     r2 = (n * sxy - sx * sy) ** 2 / ((n * sxx - sx * sx) * (n * syy - sy * sy))
-    return [slope, intercept, r2]
+    return [_wrap(slope), _wrap(intercept), _wrap(r2)]
 
 
 def pct_change(xs):
     """逐期百分比变化（小数，不是百分数）。"""
     if len(xs) < 2:
         raise ValueError("pct_change: need at least 2 values")
-    return [(_f(b) - _f(a)) / _f(a) for a, b in zip(xs, xs[1:])]
+    return [_wrap((_f(b) - _f(a)) / _f(a)) for a, b in zip(xs, xs[1:])]
 
 
 def log_returns(xs):
@@ -95,7 +107,7 @@ def log_returns(xs):
         fa, fb = _f(a), _f(b)
         if fa <= 0 or fb <= 0:
             raise ValueError("log_returns: prices must be positive")
-        out.append(sp.log(sp.Rational(fb.numerator, fb.denominator) / sp.Rational(fa.numerator, fa.denominator)))
+        out.append(_wrap(sp.log(sp.sympify(fb) / sp.sympify(fa))))
     return out
 
 
@@ -105,7 +117,7 @@ def cumsum(xs):
     out = []
     for value in xs:
         total += _f(value)
-        out.append(total)
+        out.append(_wrap(total))
     return out
 
 
@@ -117,7 +129,7 @@ def zscore(xs):
     s = _std_sample(xs)
     if s == 0:
         raise ValueError("zscore: series has zero variance")
-    return [(_f(value) - m) / s for value in xs]
+    return [_wrap((_f(value) - m) / s) for value in xs]
 
 
 def sharpe(returns, rf=0):
@@ -128,7 +140,7 @@ def sharpe(returns, rf=0):
     s = _std_sample(returns)
     if s == 0:
         raise ValueError("sharpe: returns have zero variance; ratio is undefined")
-    return (m - _f(rf)) / s
+    return _wrap((m - _f(rf)) / s)
 
 
 def max_drawdown(prices):
@@ -150,7 +162,7 @@ def max_drawdown(prices):
         dd = (v - peak) / peak
         if dd < worst:
             worst = dd
-    return worst
+    return _wrap(worst)
 
 
 def register(reg):

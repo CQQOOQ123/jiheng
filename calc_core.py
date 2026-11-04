@@ -108,6 +108,8 @@ def _sym(v):
         return v.e
     if isinstance(v, Fraction):
         return sp.Rational(v.numerator, v.denominator)
+    if isinstance(v, sp.Basic):
+        return v
     return sp.Integer(_frac(v))
 
 
@@ -178,6 +180,8 @@ def _num(v):
     if isinstance(v, IntervalValue):
         raise ValueError("interval values cannot be used in further arithmetic; "
                          "compute the whole expression with interval(expr, digits) instead")
+    if isinstance(v, sp.Basic):
+        return _wrap(v)
     return v if isinstance(v, (Fraction, Sym)) else _frac(v)
 
 
@@ -286,7 +290,7 @@ def _fn1(fn):
 # ---------- 聚合 ----------
 
 def _total(a):
-    if any(isinstance(x, Sym) for x in a):
+    if any(isinstance(x, (Sym, sp.Basic)) for x in a):
         return _wrap(sum((_sym(x) for x in a), sp.Integer(0)))
     return sum((_frac(x) for x in a), Fraction(0))
 
@@ -306,8 +310,9 @@ def _variance(a, ddof=0):
         need = ddof + 1
         raise ValueError("variance: need at least %d values (got %d)" % (need, n))
     m = _mean(a)
-    if isinstance(m, Sym):
-        ss = sum(((_sym(x) - m.e) ** 2 for x in a), sp.Integer(0))
+    if isinstance(m, (Sym, sp.Basic)):
+        me = _sym(m)
+        ss = sum(((_sym(x) - me) ** 2 for x in a), sp.Integer(0))
         return _wrap(ss / denom)
     ss = sum(((_frac(x) - m) ** 2 for x in a), Fraction(0))
     return ss / denom

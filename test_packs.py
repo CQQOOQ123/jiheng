@@ -27,6 +27,17 @@ def check(expr, expected):
         print("FAIL %-46s => %r (want %r)" % (expr, got, expected))
 
 
+def check_decimal(expr, prefix):
+    global PASS, FAIL
+    d = res(expr).get("d") or ""
+    if d.startswith(prefix):
+        PASS += 1
+        print("ok   %-46s => decimal %s" % (expr[:46], d[:24]))
+    else:
+        FAIL += 1
+        print("FAIL %-46s => decimal %r (want prefix %r)" % (expr, d, prefix))
+
+
 PACKS_DIR = next(
     (path for path in (HERE / "packs", ROOT / ".calc" / "plugins") if path.is_dir()),
     None,
@@ -35,6 +46,22 @@ assert PACKS_DIR is not None, "能力包目录不存在"
 loaded = cp.load_packs(PACKS_DIR)
 print("packs:", loaded)
 assert "stats.py" in loaded and "finance.py" in loaded, "示例能力包未加载"
+
+# WB 链式断链回归：B12 / C4 / G1 / G2
+B12 = ("sharpe(pct_change([103.5, 107.1, 101.8, 112.4, 108.9, 119.7, 115.2, 123.6])) / "
+       "(mean(pct_change([103.5, 107.1, 101.8, 112.4, 108.9, 119.7, 115.2, 123.6])) / "
+       "std(pct_change([103.5, 107.1, 101.8, 112.4, 108.9, 119.7, 115.2, 123.6])))")
+C4 = ("corr([3.1, 4.7, 2.2, 8.3, 6.5, 5.9, 9.1, 7.4], [7.2, 5.1, 8.8, 3.4, 6.9, 9.7, 4.3, 7.8]) - "
+      "cov([3.1, 4.7, 2.2, 8.3, 6.5, 5.9, 9.1, 7.4], [7.2, 5.1, 8.8, 3.4, 6.9, 9.7, 4.3, 7.8]) / "
+      "(std_sample([3.1, 4.7, 2.2, 8.3, 6.5, 5.9, 9.1, 7.4]) * "
+      "std_sample([7.2, 5.1, 8.8, 3.4, 6.9, 9.7, 4.3, 7.8]))")
+G1 = "sharpe(log_returns([103.5,107.1,101.8,112.4]))"
+G2 = "mean(log_returns([103.5,107.1,101.8,112.4]))"
+
+check(B12, "sqrt(42)/7")
+check(C4, "0")
+check_decimal(G1, "0.3660110651")
+check_decimal(G2, "0.02749744158")
 
 check("dot([1,2,3],[4,5,6])", "32")
 check("cov([1,2,3,4],[2,4,5,4])", "7/6")
@@ -65,6 +92,17 @@ check("zeta(2)", "pi**2/6")
 check("dsolve(y, x)", "C1*exp(x)")
 check("norm_cdf(0)", "0.5")
 check("norm_quantile(0.5)", "0")
+
+
+def check_decimal(expr, prefix):
+    global PASS, FAIL
+    d = res(expr).get("d") or ""
+    if d.startswith(prefix):
+        PASS += 1
+        print("ok   %-46s => decimal %s" % (expr[:46], d[:24]))
+    else:
+        FAIL += 1
+        print("FAIL %-46s => decimal %r (want prefix %r)" % (expr, d, prefix))
 
 
 def check_prefix(expr, prefix):

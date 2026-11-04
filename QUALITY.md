@@ -53,6 +53,58 @@ check_prefix("black_scholes_call(100, 1000, 0.1, 0.05, 0.2)", "1.602049234")
 - 单位/日期等非法输入继续明确报错，不自动顺延或猜测
 
 
+
+## 第三轮：链式符号类型纪律（B12 / C4 / G1 / G2）
+
+### 症状
+
+四条链式表达式在 0.3.3 上全部报错：
+
+```text
+B12: not a number: 249839342679863*sqrt(...)/...
+C4 : not a number: -34*sqrt(3255)/3465
+G1 : TypeError: argument should be a string or a Rational instance
+G2 : not a number: log(119/115)
+```
+
+### 根因
+
+`stats.py` 有几个函数返回**裸 SymPy 表达式**（`sp.log` / `sp.simplify` / `sp.sqrt`），
+既不是 `Fraction` 也不是 `Sym`。内核的类型分派只认这两种，所以：
+
+- 进入 `calc_core._sym()` → 兜底 `sp.Integer(_frac(v))` → `not a number`
+- 进入 `stats._f()` → `Fraction(裸 SymPy)` → `TypeError`
+
+不是数学错，是**类型纪律漏了一种情况**。
+
+### 修复
+
+1. `stats.py` 所有符号返回值统一 `_wrap(...)`：
+   `log_returns`、`corr`、`sharpe`、`zscore`、`_std_sample`、`cov`、`dot`、
+   `regression`、`pct_change`、`cumsum`、`max_drawdown`
+2. `stats._f()` 接受 `Sym` / 裸 SymPy；`_std_sample` 内部返回裸 SymPy，
+   在 API 边界统一 wrap，避免混合运算
+3. 内核兜底：
+   - `_sym()` 增加 `if isinstance(v, sp.Basic): return v`
+   - `_num()` 遇到裸 SymPy → `_wrap`
+   - `_total()` / `_variance()` 同时识别 `Sym` 和 `sp.Basic`
+
+### 验收（与 WB 独立真值一致）
+
+```text
+B12 = sqrt(42)/7          = 0.925820099772551461...
+C4  = 0
+G1  = 0.36601106510603536...
+G2  = 0.02749744158472231...
+```
+
+插件层已实测通过。
+
+### H5 回撤边界
+
+`max_drawdown` 现在要求价格严格 > 0；全零或 0 起步序列直接报错，
+不再依赖 `if peak:` 的 falsy 判断静默返回 0。
+
 ## 第二轮扩展审计（2026-11-05）
 
 对全部函数做边界探测，又发现并修复：
