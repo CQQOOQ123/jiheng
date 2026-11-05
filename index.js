@@ -97,7 +97,8 @@ const BASE_DESCRIPTION =
   + 'For multi-step work use ONE call with steps: '
   + '[{name:"d1",expr:"..."},{name:"d2",expr:"d1-..."},{name:"C",expr:"..."}]; '
   + 'later steps may reference earlier names. '
-  + 'If a call errors, read the hint and fix it once; do not retry the same expression.';
+  + 'If a call errors, read the hint and fix it once; do not retry the same expression. '
+  + 'Use this tool for execution after you know what to compute; do NOT use it to read, model, prove or reason about a problem. If the bottleneck is reasoning, solve that first; if the bottleneck is arithmetic, call calc.';
 
 const POLICY_TEXT = {
   always:

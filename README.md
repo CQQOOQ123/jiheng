@@ -39,6 +39,10 @@
 
 DSH 插件：`@local/jiheng`，设置页可查看状态与策略。
 
+> `uv pip install jiheng-mcp==x.y.z` 若报 unsatisfiable，但 PyPI 页面已有该版本：
+> 执行 `uv cache clean jiheng-mcp` 后重试。通常是 uv 本地缓存了旧索引。
+
+
 ## 可信度
 
 - 19,000 表达式级验收
@@ -386,7 +390,7 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 
 基准（1000 题混合题集，deepseek-v4-flash，自然使用模式）：**97.6%**（976/1000）。
 
-### 黑盒验收（0.3.7 候选）
+### 黑盒验收（0.3.8 候选）
 
 | 项目 | 结果 |
 |---|---|
@@ -478,7 +482,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.7`。
+当前 `0.3.8`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng
