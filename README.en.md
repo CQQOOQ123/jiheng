@@ -1,4 +1,4 @@
-# Jiheng (玑衡) — the exact math layer for AI products
+# Jiheng (玑衡) — the exact math execution layer for AI
 
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml)
 [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/)
@@ -6,25 +6,64 @@
 
 [中文](https://github.com/CQQOOQ123/jiheng/blob/main/README.md) | English
 
-**Fractions stay fractions. Radicals stay radicals. Nothing silently rounds.**
+**Not a calculator that thinks for your AI — a calculator so your AI doesn't have to do mental math.**
 
 > LLMs are great at reasoning and bad at arithmetic. One silently rounded number can
 > propagate into a price, a report, or a trade. Jiheng does one job: **return the exact
 > value, or tell you clearly why it cannot.**
 
-Named after the ancient Chinese astronomical instrument *xuanji yuheng* — measurement
-has to be exact, and so does computation. Ships as an **MCP server** (`jiheng-mcp`) and
-a **DSH plugin**.
+## What it is
 
-| Capability | Details |
-|---|---|
-| Exact arithmetic | `1/3`, `sqrt(2)`, `2^200` — preserved exactly, with a decimal alongside |
-| Symbolic math | `solve`, `diff`, `integrate`, `simplify`, `expand`, `factor`, `subs` |
-| Domain packs | statistics, finance, engineering, units, dates, distributions, linear algebra, ODE, special functions (19 packs) |
-| Multi-step | one call with named `steps`, no round-trip per sub-expression |
-| Parallel | `calc_shard` splits intervals across workers; worker pool 1–16 |
-| Discoverable | `functions()` lists every name; `help("name")` shows a signature |
-| Extensible | hot-reloadable `.calc/plugins/*.py` packs |
+An exact math execution layer for AI agents and MCP clients: fractions, radicals,
+symbolic math, statistics, finance, units and dates. Runs as an **MCP server** or a
+**DSH plugin**.
+
+## Who it is for
+
+- Developers building AI agents / MCP clients
+- Finance, quant, engineering and data agents
+- Workflows where exact numbers, units, dates and statistical conventions matter
+
+## Why it
+
+- `1/3` stays a fraction, `sqrt(2)` stays a radical, `2^200` is exact
+- No silent rounding, no guessed units, no plausible-but-wrong numbers
+- Errors are explicit and actionable, so the model can repair itself
+- Local, no API key, millisecond latency
+
+## Quick start (MCP)
+
+```json
+{
+  "mcpServers": {
+    "jiheng": { "command": "uvx", "args": ["jiheng-mcp"] }
+  }
+}
+```
+
+DSH plugin: `@local/jiheng`.
+
+## Evidence
+
+- 19,000 expression-level acceptance cases
+- 1,000 mixed acceptance cases
+- 19 capability packs
+- Fail-loud error contract: no silent failures
+- External benchmark notes: [BENCHMARKS.md](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
+
+## Boundaries
+
+- Does not read, model or reason about problems — that is the LLM's job
+- Not Wolfram-level symbolic integration / PDE
+- Does not fetch live market data or process large CSVs — fetch first, then compute
+
+## Documentation
+
+- [AI usage](https://github.com/CQQOOQ123/jiheng/blob/main/AI-USAGE.md)
+- [Capability packs](https://github.com/CQQOOQ123/jiheng/blob/main/PACKS.md)
+- [Quality audit](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)
+- [Benchmarks & limits](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
+- [Changelog](https://github.com/CQQOOQ123/jiheng/blob/main/CHANGELOG.md)
 
 ## Why Jiheng?
 

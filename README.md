@@ -1,26 +1,65 @@
-# 玑衡 Jiheng — 给 AI 产品用的精确数学层
+# 玑衡 Jiheng — 给 AI 的精确数学执行层
 
 [English](https://github.com/CQQOOQ123/jiheng/blob/main/README.en.md) | 中文
 
 [![test](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml/badge.svg)](https://github.com/CQQOOQ123/jiheng/actions/workflows/test.yml) [![PyPI](https://img.shields.io/pypi/v/jiheng-mcp)](https://pypi.org/project/jiheng-mcp/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**分数不丢、根号不近似、绝不静默舍入。**
+**不是让计算器替 AI 思考，而是让 AI 不必自己心算。**
 
-> 模型很擅长推理，却不擅长算术。一个被静默舍入的数字，可能一路传进报价、报表或仓位里。
+> 模型擅长推理，却不擅长算术。一个被静默舍入的数字，可能一路传进报价、报表或仓位里。
 > 玑衡只做一件事：**要么给出精确值，要么明确告诉你为什么给不了。**
 
-以古代测天仪器“璇玑玉衡”为名：测量要准，计算也是。
-既可作为 **DSH 插件**，也可作为 **独立 MCP 服务器** 接入任意 MCP 客户端。
+## 这是什么
 
-| 能力 | 说明 |
-|---|---|
-| 精确 | `1/3` 保留分数，`sqrt(2)` 保留根号，`2^200` 逐位精确 |
-| 符号 | `solve` / `diff` / `integrate` / `simplify` / `expand` / `factor` / `subs` |
-| 多域 | 统计、金融、工程、单位、日期、分布、线代、ODE、特殊函数等 19 个能力包 |
-| 多步 | 一次调用用 `steps` 提交命名中间量，避免模型反复往返 |
-| 并行 | `calc_shard` 拆区间并行；worker 池 1–16 个进程 |
-| 可扩展 | `.calc/plugins/*.py` 热加载；设置页可加/删公式 |
-| 可发现 | `functions()` 列全部函数，`help("name")` 查签名 |
+给 AI Agent / MCP 客户端使用的**精确数学执行层**：分数、根号、符号、统计、金融、单位、日期。
+既可以作为 **MCP 服务器**，也可以作为 **DSH 插件** 接入。
+
+## 给谁用
+
+- 做 AI Agent / MCP 客户端的开发者
+- 金融、量化、工程、数据类 Agent
+- 需要精确数字、单位、日期、统计口径，不能接受静默舍入的场景
+
+## 为什么用它
+
+- `1/3` 保留分数，`sqrt(2)` 保留根号，`2^200` 逐位精确
+- 不静默舍入，不猜单位，不返回“看起来对的错数”
+- 错误要么明确，要么可行动，让模型能自己修正
+- 本地运行，无 API key，毫秒级延迟
+
+## 快速开始（MCP）
+
+```json
+{
+  "mcpServers": {
+    "jiheng": { "command": "uvx", "args": ["jiheng-mcp"] }
+  }
+}
+```
+
+DSH 插件：`@local/jiheng`，设置页可查看状态与策略。
+
+## 可信度
+
+- 19,000 表达式级验收
+- 1,000 综合验收
+- 19 个能力包
+- fail-loud 错误契约：不静默失败
+- 外部 benchmark 结论见 [BENCHMARKS.md](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
+
+## 不做什么
+
+- 不负责读题、建模、推理：那是 LLM 的工作
+- 不替代 Wolfram 级符号积分 / PDE
+- 不抓实时行情、不读大型 CSV：先取数，再计算
+
+## 详细文档
+
+- [AI 调用手册](https://github.com/CQQOOQ123/jiheng/blob/main/AI-USAGE.md)
+- [能力包清单](https://github.com/CQQOOQ123/jiheng/blob/main/PACKS.md)
+- [质量审计](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)
+- [基准与限制](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
+- [更新记录](https://github.com/CQQOOQ123/jiheng/blob/main/CHANGELOG.md)
 
 ## 为什么选 Jiheng
 

@@ -10,7 +10,7 @@ readme = "README.en.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 dependencies = ["sympy>=1.12"]
-keywords = ["mcp", "calculator", "exact", "sympy", "ai", "jiheng"]
+keywords = ["mcp", "mcp-server", "ai-agents", "llm-tools", "agent-tools", "calculator", "exact-arithmetic", "symbolic-math", "finance", "quantitative-finance", "unit-conversion", "sympy", "python", "dsh-plugin", "tool-use"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Scientific/Engineering :: Mathematics",
@@ -40,4 +40,6 @@ include = [
   "AI-USAGE.md",
   "PACKS.md",
   "QUALITY.md",
+  "BENCHMARKS.md",
+  "llms.txt",
 ]

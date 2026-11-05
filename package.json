@@ -23,7 +23,11 @@
     "cordis.patch.yml",
     "locale/*.json",
     "icon.svg",
-    "README.en.md"
+    "README.en.md",
+    "BENCHMARKS.md",
+    "llms.txt",
+    "QUALITY.md",
+    "CHANGELOG.md"
   ],
   "dsh": {
     "bundle": {
@@ -38,13 +42,23 @@
     }
   },
   "keywords": [
-    "dsh-plugin",
-    "calculator",
-    "exact",
-    "sympy",
-    "ai",
     "mcp",
-    "jiheng"
+    "mcp-server",
+    "ai-agents",
+    "llm-tools",
+    "agent-tools",
+    "calculator",
+    "exact-arithmetic",
+    "symbolic-math",
+    "finance",
+    "quantitative-finance",
+    "unit-conversion",
+    "sympy",
+    "python",
+    "dsh-plugin",
+    "tool-use",
+    "deterministic",
+    "local-first"
   ],
   "repository": {
     "type": "git",

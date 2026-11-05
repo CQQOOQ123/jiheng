@@ -1,0 +1,46 @@
+# Jiheng — exact math execution layer for AI
+
+> Not a calculator that thinks for your AI; a calculator so your AI doesn't have to do mental math.
+
+## Use Jiheng when
+
+- exact fractions, radicals, big numbers, decimals
+- finance / quant: NPV, IRR, bonds, Black-Scholes, drawdown
+- statistics with explicit ddof conventions
+- units, dates, percentages, engineering formulas
+- multi-step calculations with named `steps`
+- the agent must not silently round or guess units
+
+## Do not use Jiheng for
+
+- reading or modeling word problems (that is the LLM's job)
+- Risch-level symbolic integration / PDEs (use Wolfram)
+- live market data or large CSV processing (fetch/process first)
+
+## Entry points
+
+- MCP: `uvx jiheng-mcp`
+- DSH plugin: `@local/jiheng`
+- Python: `jiheng-mcp` on PyPI
+
+## Output contract
+
+- `v`: exact value (fraction / radical / symbolic)
+- `d`: optional decimal for humans
+- `exact`: whether the value is exact
+- `w`: warning
+- errors: explicit, actionable, no silent failure
+
+## Docs
+
+- AI usage: AI-USAGE.md
+- Packs: PACKS.md
+- Quality: QUALITY.md
+- Benchmarks and limits: BENCHMARKS.md
+- Changelog: CHANGELOG.md
+
+## Boundaries
+
+External benchmarks show the calculator is an execution layer, not a reasoning
+replacement. Use it where numeric execution is the bottleneck, not where the problem
+is reasoning-bound.
