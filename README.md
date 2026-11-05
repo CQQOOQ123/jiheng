@@ -386,7 +386,7 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 
 基准（1000 题混合题集，deepseek-v4-flash，自然使用模式）：**97.6%**（976/1000）。
 
-### 黑盒验收（0.3.6 候选）
+### 黑盒验收（0.3.7 候选）
 
 | 项目 | 结果 |
 |---|---|
@@ -478,7 +478,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.6`。
+当前 `0.3.7`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng

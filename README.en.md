@@ -405,7 +405,7 @@ node test_routes.mjs http://127.0.0.1:3379  # 26: HTTP routes
 
 Benchmark (1000 mixed tasks, deepseek-v4-flash, natural usage): **97.6%** (976/1000).
 
-### Black-box acceptance (0.3.6 candidate)
+### Black-box acceptance (0.3.7 candidate)
 
 | Item | Result |
 |---|---|
@@ -452,8 +452,8 @@ Quality audit: [`QUALITY.md`](https://github.com/CQQOOQ123/jiheng/blob/main/QUAL
 
 ```bash
 uv build --directory dsh-calc
-# dist/jiheng_mcp-0.3.6-py3-none-any.whl
-# dist/jiheng_mcp-0.3.6.tar.gz
+# dist/jiheng_mcp-0.3.7-py3-none-any.whl
+# dist/jiheng_mcp-0.3.7.tar.gz
 ```
 
 Docker:
@@ -465,7 +465,7 @@ docker run -i --rm jiheng-mcp
 
 ## Version & license
 
-- Version: `0.3.6`
+- Version: `0.3.7`
 - MCP package: `jiheng-mcp` on PyPI
 - DSH plugin id: `@local/jiheng`
 - License: **MIT** (see [LICENSE](https://github.com/CQQOOQ123/jiheng/blob/main/LICENSE))

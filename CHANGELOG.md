@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.7] - 2026-11-05
+- 文档版：README 改为产品首页，详细内容通过文档链接分流
+- 新增 BENCHMARKS.md（内部验收、外部 benchmark、审计与边界）
+- 新增 llms.txt（AI 入口）
+- GitHub Topics / PyPI 关键词改为产品与 AI 可发现性导向
+- 无代码行为变更
+
 ## [0.3.6] - 2026-11-05
 - 新增 `irr_all`：NPV=0 化为精确多项式，返回全部实数 IRR（去重、升序、无实根返回 []）
 - `series` 奇点/空区间 fail-loud；`ln(0)`/`log(0)` 不再返回 `zoo`
