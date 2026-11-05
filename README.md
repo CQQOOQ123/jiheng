@@ -60,6 +60,7 @@ DSH 插件：`@local/jiheng`，设置页可查看状态与策略。
 - [质量审计](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)
 - [基准与限制](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
 - [更新记录](https://github.com/CQQOOQ123/jiheng/blob/main/CHANGELOG.md)
+- [llms.txt（给 AI 的入口）](https://github.com/CQQOOQ123/jiheng/blob/main/llms.txt)
 
 ## 为什么选 Jiheng
 

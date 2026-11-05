@@ -64,6 +64,7 @@ DSH plugin: `@local/jiheng`.
 - [Quality audit](https://github.com/CQQOOQ123/jiheng/blob/main/QUALITY.md)
 - [Benchmarks & limits](https://github.com/CQQOOQ123/jiheng/blob/main/BENCHMARKS.md)
 - [Changelog](https://github.com/CQQOOQ123/jiheng/blob/main/CHANGELOG.md)
+- [llms.txt (for AI)](https://github.com/CQQOOQ123/jiheng/blob/main/llms.txt)
 
 ## Why Jiheng?
 
