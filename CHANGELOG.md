@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.9] - 2026-11-05
+- README 增加 MCP Registry 所有权标记 `mcp-name: io.github.CQQOOQ123/jiheng`
+- server.json 更新到 0.3.9
+- 用于通过 MCP Registry PyPI ownership validation
+- 无计算内核行为变更
+
 ## [0.3.8] - 2026-11-05
 - AI-USAGE 增加“何时用/不用 calc”的执行层路由规则
 - 工具描述明确“执行层，不是推理器”

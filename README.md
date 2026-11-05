@@ -390,7 +390,7 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 
 基准（1000 题混合题集，deepseek-v4-flash，自然使用模式）：**97.6%**（976/1000）。
 
-### 黑盒验收（0.3.8 候选）
+### 黑盒验收（0.3.9 候选）
 
 | 项目 | 结果 |
 |---|---|
@@ -482,7 +482,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.8`。
+当前 `0.3.9`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng
@@ -521,3 +521,7 @@ MIT **不限制别人复制代码**，保护来自许可证之外：
 
 典型案例：React（Meta）、VS Code、Ollama、LangChain 都是 MIT/宽松许可，
 靠品牌、生态、企业服务/托管平台赚钱，而不是靠许可证封锁。
+
+## MCP Registry
+
+mcp-name: io.github.CQQOOQ123/jiheng
