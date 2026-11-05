@@ -281,6 +281,7 @@ check_list_decimal("irr_all([100, -30, -30, -30])", 0, "-0.0508854413")
 check_list_decimal("irr_all([-100, 30, 30, 30])", 0, "-0.0508854413")
 check_list_decimal("irr_all([-100, 40, 40, 40])", 0, "0.0970102574")
 
+raises("summation(1/x, x, 0, 10)", "singular")
 raises("ln(0)", "non-zero")
 raises("log(0)", "non-zero")
 raises("series(x^2, x, 1, 3, -1)", "empty range")

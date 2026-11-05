@@ -42,7 +42,11 @@ def summation(expr, var, a, b):
     if not hasattr(var, "e"):
         raise ValueError("summation: second argument must be a single-letter variable")
     stop = sp.oo if str(_sp(b)) == "oo" else _sp(b)
-    return _wrap(sp.summation(_sp(expr), (var.e, _sp(a), stop)))
+    result = sp.summation(_sp(expr), (var.e, _sp(a), stop))
+    if result.has(sp.zoo, sp.nan) or result in (sp.zoo, sp.nan):
+        raise ValueError("summation: expression is undefined at one of the summation points "
+                         "(singular term, got %s)" % result)
+    return _wrap(result)
 
 
 def register(reg):
