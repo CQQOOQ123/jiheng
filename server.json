@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.CQQOOQ123/jiheng",
+  "description": "Exact math execution layer for AI agents: fractions, finance, units, dates. 19 capability packs, fail-loud errors, 19,000 acceptance tests.",
+  "version": "0.3.8",
+  "repository": {
+    "url": "https://github.com/CQQOOQ123/jiheng",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "jiheng-mcp",
+      "version": "0.3.8",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

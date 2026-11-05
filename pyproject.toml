@@ -42,4 +42,5 @@ include = [
   "QUALITY.md",
   "BENCHMARKS.md",
   "llms.txt",
+  "server.json",
 ]

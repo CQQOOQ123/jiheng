@@ -27,7 +27,8 @@
     "BENCHMARKS.md",
     "llms.txt",
     "QUALITY.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "server.json"
   ],
   "dsh": {
     "bundle": {
