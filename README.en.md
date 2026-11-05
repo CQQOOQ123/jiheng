@@ -44,7 +44,7 @@ symbolic math, statistics, finance, units and dates. Runs as an **MCP server** o
 DSH plugin: `@local/jiheng`.
 
 > If `uv pip install jiheng-mcp==x.y.z` says unsatisfiable while the PyPI page has that
-> version, run `uv cache clean jiheng-mcp` and retry. It is usually a stale local uv index.
+> version, run `uv cache clean jiheng-mcp` and retry; if it still fails, run a full `uv cache clean`. It is usually a stale local uv index.
 
 
 ## Evidence

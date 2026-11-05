@@ -40,7 +40,7 @@
 DSH 插件：`@local/jiheng`，设置页可查看状态与策略。
 
 > `uv pip install jiheng-mcp==x.y.z` 若报 unsatisfiable，但 PyPI 页面已有该版本：
-> 执行 `uv cache clean jiheng-mcp` 后重试。通常是 uv 本地缓存了旧索引。
+> 执行 `uv cache clean jiheng-mcp` 后重试；仍失败则执行完整 `uv cache clean`。通常是 uv 本地缓存了旧索引。
 
 
 ## 可信度
