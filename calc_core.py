@@ -606,7 +606,10 @@ def _series(expr, var, start, end, step=1):
         if len(out) >= LIMITS["max_series"]:
             raise ValueError("series: more than %d elements (raise the range or use a filter)" % LIMITS["max_series"])
         if isinstance(expr, Sym):
-            out.append(_wrap(expr.e.subs(v.e, _sym(cur))))
+            val = expr.e.subs(v.e, _sym(cur))
+            if getattr(val, "is_finite", None) is False:
+                raise ValueError("series: expression is undefined at %s = %s" % (v.e, cur))
+            out.append(_wrap(val))
         else:
             out.append(expr)
         cur = _add(cur, st)

@@ -15,7 +15,7 @@ def _wrap(v):
 
 
 def _sp(v):
-    return getattr(v, "e", v)
+    return sp.sympify(getattr(v, "e", v))
 
 
 def dsolve(rhs, x):

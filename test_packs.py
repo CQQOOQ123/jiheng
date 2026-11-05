@@ -281,5 +281,9 @@ check_list_decimal("irr_all([100, -30, -30, -30])", 0, "-0.0508854413")
 check_list_decimal("irr_all([-100, 30, 30, 30])", 0, "-0.0508854413")
 check_list_decimal("irr_all([-100, 40, 40, 40])", 0, "0.0970102574")
 
+raises("series(1/x, x, 0, 3)", "undefined at")
+check("dsolve(1, x)", "C1 + x")
+check("dsolve(y, x)", "C1*exp(x)")
+
 print("\n%d passed, %d failed" % (PASS, FAIL))
 sys.exit(1 if FAIL else 0)
