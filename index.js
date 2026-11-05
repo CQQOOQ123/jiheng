@@ -21,6 +21,15 @@ export const inject = ['tools'];
 
 const require = createRequire(import.meta.url);
 const VERSION = require('./package.json').version;
+
+function currentVersion() {
+  // 插件热重载时 require 缓存可能保留旧 package.json；状态接口每次读盘。
+  try {
+    return JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')).version;
+  } catch {
+    return VERSION;
+  }
+}
 const POLICIES = ['always', 'complex', 'auto', 'never', 'custom'];
 const DEFAULT_POLICY = 'complex';
 
@@ -521,7 +530,7 @@ export function apply(ctx, config) {
   function status() {
     return {
       ok: true,
-      version: VERSION,
+      version: currentVersion(),
       policy,
       customRules,
       policies: POLICIES,
