@@ -589,6 +589,22 @@ def _last(a):
     return _num(a[-1])
 
 
+def _ln(x):
+    e = _sym(x)
+    if e.is_zero:
+        raise ValueError("ln: argument must be non-zero")
+    return _wrap(sp.log(e))
+
+
+def _logb(x, b=10):
+    e, base = _sym(x), _sym(b)
+    if e.is_zero:
+        raise ValueError("log: argument must be non-zero")
+    if base.is_zero or base == 1:
+        raise ValueError("log: base must be > 0 and != 1")
+    return _wrap(sp.log(e, base))
+
+
 def _series(expr, var, start, end, step=1):
     """对 x = start..end 逐点求值，返回列表（用于逐年复利、分期摊还、批量折算）。"""
     v = _require_symbol(var, "series")
@@ -597,6 +613,9 @@ def _series(expr, var, start, end, step=1):
     end_f = _as_float(b)
     if step_f == 0:
         raise ValueError("series: step must not be zero")
+    a_f = _as_float(a)
+    if (step_f > 0 and a_f > end_f + 1e-12) or (step_f < 0 and a_f < end_f - 1e-12):
+        raise ValueError("series: empty range (step sign is inconsistent with start/end)")
     out = []
     cur = a
     while True:
@@ -650,8 +669,8 @@ FUNCS = {
     "floor": _floor,
     "ceil": _ceil,
     "exp": _fn1(sp.exp),
-    "ln": _fn1(sp.log),
-    "log": lambda x, b=10: _wrap(sp.log(_sym(x), _sym(b))),
+    "ln": _ln,
+    "log": _logb,
     "sin": _fn1(sp.sin),
     "cos": _fn1(sp.cos),
     "tan": _fn1(sp.tan),
