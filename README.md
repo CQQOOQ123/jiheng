@@ -335,7 +335,7 @@ calc_shard(expr="x*exp(x)", var="x", from=0, to=1, shards=4, mode="integrate", o
 
 ```bash
 python dsh-calc/test_cases.py       # 63 项：精度/统计/语义/错误/安全
-python dsh-calc/test_packs.py       # 124 项：能力包
+python dsh-calc/test_packs.py       # 169 项：能力包
 python dsh-calc/test_worker.py      # 12 项：worker 协议/热加载/ready
 node dsh-calc/test_client_contract.mjs  # 8 项：客户端契约
 node dsh-calc/test_routes.mjs http://127.0.0.1:3379  # 26 项：HTTP 路由
@@ -345,6 +345,21 @@ python research/bench/mcp_smoke.py  # 7 项：MCP 冒烟
 ```
 
 基准（1000 题混合题集，deepseek-v4-flash，自然使用模式）：**97.6%**（976/1000）。
+
+### 黑盒验收（0.3.6 候选）
+
+| 项目 | 结果 |
+|---|---|
+| 综合任务银行 | **1,000/1,000** |
+| 按能力包 | **19 包 × 1,000 = 19,000/19,000** |
+| 真值来源 | `Fraction` / `mpmath dps=50` / 日历事实；不调用插件自身算答案 |
+| 调用方式 | 通过 MCP stdio 黑盒调用，只看输入/输出 |
+| 难度分布（综合集） | easy 639 / medium 131 / hard 130 / adversarial 100 |
+| 构建产物性能 | 冷启动 ~4.2 ms，p50 ~1.8 ms，p95 ~42 ms，p99 ~45 ms，~119 calls/s |
+
+> 说明：这是生成式验收集，覆盖行为一致性、精确契约和 fail-loud 边界；难度以工程/量化计算为主，不等同于竞赛数学。
+
+
 
 ## 常见问题
 

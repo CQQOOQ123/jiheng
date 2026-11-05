@@ -356,7 +356,7 @@ calc_shard(expr="x*exp(x)", var="x", from=0, to=1, shards=4, mode="integrate", o
 
 ```bash
 python test_cases.py        # 63: precision/stats/semantics/errors/security
-python test_packs.py        # 93: capability packs
+python test_packs.py        # 169: capability packs
 python test_worker.py       # 12: worker protocol/hot reload/ready
 python test_mcp.py          # 6: MCP smoke
 node test_client_contract.mjs   # 8: client contract
@@ -364,6 +364,21 @@ node test_routes.mjs http://127.0.0.1:3379  # 26: HTTP routes
 ```
 
 Benchmark (1000 mixed tasks, deepseek-v4-flash, natural usage): **97.6%** (976/1000).
+
+### Black-box acceptance (0.3.6 candidate)
+
+| Item | Result |
+|---|---|
+| Mixed task bank | **1,000/1,000** |
+| Per capability pack | **19 packs × 1,000 = 19,000/19,000** |
+| Truth source | `Fraction` / `mpmath dps=50` / calendar facts; never the plugin itself |
+| Call path | MCP stdio, black-box input/output only |
+| Difficulty (mixed bank) | easy 639 / medium 131 / hard 130 / adversarial 100 |
+| Built-artifact performance | cold ~4.2 ms, p50 ~1.8 ms, p95 ~42 ms, p99 ~45 ms, ~119 calls/s |
+
+> This is a generated acceptance suite for behavioral consistency, exact contracts and fail-loud boundaries. It is engineering/quantitative coverage, not competition-level mathematics.
+
+
 
 ## FAQ
 
