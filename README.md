@@ -423,7 +423,7 @@ docker run -i --rm jiheng-mcp
 
 ## 版本与品牌
 
-当前 `0.3.5`。
+当前 `0.3.6`。
 
 - 品牌：**玑衡 Jiheng**
 - GitHub 仓库：https://github.com/CQQOOQ123/jiheng

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.6] - 2026-11-05
+- 新增 `irr_all`：NPV=0 化为精确多项式，返回全部实数 IRR（去重、升序、无实根返回 []）
+- `series` 奇点/空区间 fail-loud；`ln(0)`/`log(0)` 不再返回 `zoo`
+- `dsolve` 支持常量右端（`dsolve(1, x)` → `C1 + x`）
+- 新增 1000 题黑盒验收任务银行（独立真值）+ 性能基准
+- 能力包测试 165 → 168 项
+
 ## [0.3.5] - 2026-11-05
 - `max_drawdown(prices[, allow_leading_zeros])` 显式参数：默认严格 >0，allow=1 允许前导 0
 - AI-USAGE 增加统计口径声明（总体/样本 ddof、max_drawdown 契约）
